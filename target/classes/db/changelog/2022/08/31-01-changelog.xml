@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <include file="db/changelog/2022/08/31-02-changelog.xml"/>
+    <include file="db/changelog/2022/08/31-03-changelog.xml"/>
+    <include file="db/changelog/2022/08/31-04-changelog.xml"/>
+    <include file="db/changelog/2022/08/31-05-changelog.xml"/>
+    <include file="db/changelog/2022/08/31-06-changelog.xml"/>
+    <changeSet id="1661956270464-1" author="dddey (generated)">
+        <createTable tableName="countries">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_countries"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1661956270464-2" author="dddey (generated)">
+        <createTable tableName="products">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_products"/>
+            </column>
+            <column name="type_id" type="INT"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="img" type="VARCHAR(255)"/>
+            <column name="cost" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_id" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1661956270464-3" author="dddey (generated)">
+        <createTable tableName="purchases">
+            <column name="product_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_purchases"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_purchases"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1661956270464-4" author="dddey (generated)">
+        <createTable tableName="types">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_types"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1661956270464-5" author="dddey (generated)">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="login" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1661956270464-6" author="dddey (generated)">
+        <addUniqueConstraint columnNames="id" constraintName="uc_d7b5c742ff8d4ced7672afc29" tableName="users"/>
+    </changeSet>
+    <changeSet id="1661956270464-7" author="dddey (generated)">
+        <addUniqueConstraint columnNames="login" constraintName="uc_f8d2576e807e2b20b506bf6a3" tableName="users"/>
+    </changeSet>
+    <changeSet id="1661956270464-8" author="dddey (generated)">
+        <addForeignKeyConstraint baseColumnNames="country_id" baseTableName="products"
+                                 constraintName="FK_PRODUCTS_ON_COUNTRY" referencedColumnNames="id"
+                                 referencedTableName="countries"/>
+    </changeSet>
+    <changeSet id="1661956270464-9" author="dddey (generated)">
+        <addForeignKeyConstraint baseColumnNames="type_id" baseTableName="products" constraintName="FK_PRODUCTS_ON_TYPE"
+                                 referencedColumnNames="id" referencedTableName="types"/>
+    </changeSet>
+    <changeSet id="1661956270464-10" author="dddey (generated)">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="purchases"
+                                 constraintName="fk_purchases_on_product" referencedColumnNames="id"
+                                 referencedTableName="products"/>
+    </changeSet>
+    <changeSet id="1661956270464-11" author="dddey (generated)">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="purchases"
+                                 constraintName="fk_purchases_on_user" referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+</databaseChangeLog>
