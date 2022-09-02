@@ -30,6 +30,7 @@ public class UserController {
 
     @PostMapping("/add")
     void addUser(@RequestBody User user) {
+        System.out.println(user.getId());
         userRepo.save(user);
 
         String string_token = (new ApiServiceImpl()).generateToken(18);
