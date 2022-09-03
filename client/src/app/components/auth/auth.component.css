@@ -1,4 +1,6 @@
 .auth-form {
+  margin-top: 35px;
+  margin-bottom: 35px;
   margin-left: 35%;
   width: 30%;
   text-align: left;
@@ -10,15 +12,15 @@
 
 label {
   font-size: large;
-  margin-bottom: 3px;
+  margin-bottom: 1px;
 }
 
 .form-group {
-  margin-top: 12px;
+  margin-top: 5px;
 }
 
 .submit-btn {
-  margin-top: 5px;
+  margin-top: 4px;
   background-color: cornflowerblue;
   color: #fff;
   transition: .5s;

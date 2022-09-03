@@ -29,8 +29,13 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    void addUser(@RequestBody User user) {
-        System.out.println(user.getId());
+    public String addUser(@RequestBody User user) {
+        List<User> checkUser = userRepo.findByLogin(user.getLogin());
+
+        if (checkUser.size() > 0) {
+            return "{ \"status\": Данный логин уже занят\" }";
+        }
+
         userRepo.save(user);
 
         String string_token = (new ApiServiceImpl()).generateToken(18);
@@ -39,25 +44,27 @@ public class UserController {
 
         user.setToken(token);
         userRepo.save(user);
+
+        return "{ \"status\": \"ok\" }";
     }
 
-    @GetMapping("/auth")
-    public Boolean authUser(@RequestParam String login, @RequestParam String password) {
-        List<User> res = userRepo.findByLoginAndPassword(login, password);
+    @PostMapping("/auth")
+    public String authUser(@RequestBody User user) {
+        List<User> res = userRepo.findByLoginAndPassword(user.getLogin(), user.getPassword());
 
         if (res.size() == 1) {
             String string_token = (new ApiServiceImpl()).generateToken(18);
             Token token = new Token(string_token);
             tokenRepo.save(token);
 
-            User user = res.get(0);
-            user.setToken(token);
-            userRepo.save(user);
+            User myUser = res.get(0);
+            myUser.setToken(token);
+            userRepo.save(myUser);
 
-            return true;
+            return "{ \"status\": \"ok\" }";
         }
 
-        return false;
+        return "{ \"status\": \"Логин или пароль неверный\" }";
     }
 
     @PostMapping("/delete/{id}")

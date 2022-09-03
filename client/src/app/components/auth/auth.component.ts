@@ -10,17 +10,33 @@ import {User} from "../../assets/user";
 })
 export class AuthComponent implements OnInit {
   newUser: User;
+  inputUser: User;
 
   constructor(private userService: UserService) {
     this.newUser = new User();
+    this.inputUser = new User();
   }
 
   ngOnInit() {
   }
 
+  logIn() {
+    this.userService.logInUser(this.inputUser).subscribe(res => {
+      if (res == "ok") {
+        location.href = '/';
+      } else {
+        alert(res);
+      }
+    });
+  }
+
   addUser() {
     this.userService.addUser(this.newUser).subscribe(res => {
-      console.log(res);
-    })
+      if (res == "ok") {
+        location.href = '/';
+      } else {
+        alert(res);
+      }
+    });
   }
 }
