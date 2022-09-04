@@ -17,6 +17,7 @@ import { BasketComponent } from './components/basket/basket.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
 import {ApiService} from "./service/api.service";
+import { CreatingProductComponent } from './components/creating-product/creating-product.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {ApiService} from "./service/api.service";
     AuthComponent,
     ProductsComponent,
     BasketComponent,
-    HeaderComponent
+    HeaderComponent,
+    CreatingProductComponent
   ],
     imports: [
         BrowserModule,

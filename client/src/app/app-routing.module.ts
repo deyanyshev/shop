@@ -5,12 +5,14 @@ import {AuthComponent} from './components/auth/auth.component';
 import {ProductsComponent} from "./components/products/products.component";
 import {UserComponent} from "./components/user/user.component";
 import {BasketComponent} from "./components/basket/basket.component";
+import {CreatingProductComponent} from "./components/creating-product/creating-product.component";
 
 const routes: Routes = [
   { path: '', component: ProductsComponent },
   { path: 'auth', component: AuthComponent },
   { path: 'profile', component: UserComponent },
   { path: 'basket', component: BasketComponent },
+  { path: 'create-product', component: CreatingProductComponent },
   { path: '**', component: NotfoundComponent }
 ];
 
