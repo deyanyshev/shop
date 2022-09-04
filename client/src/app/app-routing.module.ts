@@ -1,13 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ProductComponent } from './components/product/product.component';
 import {NotfoundComponent} from './components/notfound/notfound.component';
 import {AuthComponent} from './components/auth/auth.component';
+import {ProductsComponent} from "./components/products/products.component";
+import {UserComponent} from "./components/user/user.component";
+import {BasketComponent} from "./components/basket/basket.component";
 
 const routes: Routes = [
-  { path: 'products', component: ProductComponent },
-  { path: 'auth', component: AuthComponent},
-  { path: '**', component: NotfoundComponent}
+  { path: '', component: ProductsComponent },
+  { path: 'auth', component: AuthComponent },
+  { path: 'profile', component: UserComponent },
+  { path: 'basket', component: BasketComponent },
+  { path: '**', component: NotfoundComponent }
 ];
 
 @NgModule({

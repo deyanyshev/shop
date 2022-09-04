@@ -3,4 +3,6 @@ export class Product {
   name: string;
   description: string;
   img: string;
+  type_id: number;
+  country_id: number;
 }

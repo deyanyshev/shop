@@ -9,6 +9,9 @@ import com.internship.site.service.ApiServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
@@ -21,12 +24,6 @@ public class UserController {
 
     @Autowired
     private TokenRepo tokenRepo;
-
-    @GetMapping("/{id}")
-    @ResponseBody
-    public User getUser(@PathVariable int id) {
-        return userRepo.findById(id).get(0);
-    }
 
     @PostMapping("/add")
     public String addUser(@RequestBody User user) {
@@ -45,7 +42,7 @@ public class UserController {
         user.setToken(token);
         userRepo.save(user);
 
-        return "{ \"status\": \"ok\" }";
+        return "{ \"status\": \"ok\", \"token\": \"" + string_token + "\" }";
     }
 
     @PostMapping("/auth")
@@ -58,18 +55,35 @@ public class UserController {
             tokenRepo.save(token);
 
             User myUser = res.get(0);
+            Token oldToken = myUser.getToken();
+
             myUser.setToken(token);
             userRepo.save(myUser);
 
-            return "{ \"status\": \"ok\" }";
+            tokenRepo.delete(oldToken);
+
+            return "{ \"status\": \"ok\", \"token\": \"" + string_token + "\" }";
         }
 
         return "{ \"status\": \"Логин или пароль неверный\" }";
     }
 
-    @PostMapping("/delete/{id}")
-    void deleteUser(@PathVariable int id) {
-        User user = userRepo.findById(id).get(0);
-        userRepo.delete(user);
+    @GetMapping("/user/{token}")
+    public User isLoginUser(@PathVariable String token) {
+        List<Token> tokenRes = tokenRepo.findByToken(token);
+
+        if (tokenRes.size() == 0) {
+            return new User();
+        }
+
+        User user = tokenRes.get(0).getUser();
+        return new User(user.getName(), user.getLogin(), user.getPassword(), user.getEmail());
+    }
+
+    @GetMapping("/delete/{token}")
+    void deleteUser(@PathVariable String token) {
+        Token myToken = tokenRepo.findByToken(token).get(0);
+        userRepo.delete(myToken.getUser());
+        tokenRepo.delete(myToken);
     }
 }

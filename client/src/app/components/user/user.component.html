@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-hello
-</body>
-</html>
+<app-header></app-header>
+
+<div class="col-md-8">
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-3">
+          <h6 class="mb-0">Логин</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">{{ user.login }}</div>
+      </div>
+
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <h6 class="mb-0">Имя</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">{{ user.name }}</div>
+      </div>
+
+      <hr>
+      <div class="row">
+        <div class="col-sm-3">
+          <h6 class="mb-0">Почта</h6>
+        </div>
+        <div class="col-sm-9 text-secondary">{{ user.email }}</div>
+      </div>
+
+      <hr>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="btn btn-info" (click)="logOut()">Выйти</div>
+          <div class="btn btn-info btn-danger" (click)="deleteUser()" style="margin-left: 20px">Удалить аккаунт</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

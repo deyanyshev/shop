@@ -15,6 +15,8 @@ import { AuthComponent } from './components/auth/auth.component';
 import { ProductsComponent } from './components/products/products.component';
 import { BasketComponent } from './components/basket/basket.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './components/header/header.component';
+import {ApiService} from "./service/api.service";
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NotfoundComponent,
     AuthComponent,
     ProductsComponent,
-    BasketComponent
+    BasketComponent,
+    HeaderComponent
   ],
     imports: [
         BrowserModule,
@@ -35,7 +38,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         NgbModule,
         ReactiveFormsModule
     ],
-  providers: [ProductService, UserService],
+  providers: [ProductService, UserService, ApiService],
   bootstrap: [AppComponent, AuthComponent]
 })
 export class AppModule { }
