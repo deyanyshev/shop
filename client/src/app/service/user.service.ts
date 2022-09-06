@@ -12,23 +12,23 @@ export class UserService {
   }
 
   public getUser(token: string):Observable<User> {
-    return this.http.get('http://localhost:8080/users/user/' + token).pipe(map((data:any) => {
+    return this.http.get('api/users/user/' + token).pipe(map((data:any) => {
       return data;
     }));
   }
 
   public logInUser(user: User):Observable<any> {
-    return this.http.post('http://localhost:8080/users/auth', user).pipe(map((data:any) => {
+    return this.http.post('api/users/auth', user).pipe(map((data:any) => {
       return data;
     }));
   }
 
   public deleteUser(token: string) {
-    return this.http.get('http://localhost:8080/users/delete/' + token);
+    return this.http.get('api/users/delete/' + token);
 }
 
   public addUser(user: User):Observable<any> {
-    return this.http.post('http://localhost:8080/users/add', user).pipe(map((data:any) => {
+    return this.http.post('api/users/add', user).pipe(map((data:any) => {
       return data;
     }));
   }

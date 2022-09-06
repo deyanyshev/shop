@@ -10,10 +10,10 @@ export class ProductService {
   }
 
   public findAll(): Observable<Product[]> {
-    return this.http.get<Product[]>('http://localhost:8080/products');
+    return this.http.get<Product[]>('api/products');
   }
 
   public save(product: Product) {
-    return this.http.post('http://localhost:8080/add-product', product);
+    return this.http.post('api/add-product', product);
   }
 }

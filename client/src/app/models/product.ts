@@ -6,3 +6,4 @@ export class Product {
   type: string;
   country: string;
 }
+
