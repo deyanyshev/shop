@@ -9,11 +9,12 @@ import {ApiService} from "../../service/api.service";
 })
 export class HeaderComponent implements OnInit {
   path = window.location.pathname;
-  isLogin = false;
+  isLogin = false; /** Флаг авторизации пользователя, нужен для рендера верных шаблонов **/
 
   constructor(private userService: UserService, private apiService: ApiService) { }
 
   ngOnInit() {
+    /** Определение флага авторизации пользователя **/
     this.userService.getUser(this.apiService.getCookie('token')).subscribe(res => {
       if (res.login != null) this.isLogin = true;
     })

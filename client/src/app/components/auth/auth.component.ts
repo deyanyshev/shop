@@ -21,6 +21,9 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
   }
 
+  /**
+   * Авторизация пользователя
+   */
   logIn() {
     this.userService.logInUser(this.inputUser).subscribe(res => {
       if (res.status == "ok") {
@@ -32,6 +35,9 @@ export class AuthComponent implements OnInit {
     });
   }
 
+  /**
+   * Добавление нового пользователя
+   */
   addUser() {
     this.userService.addUser(this.newUser).subscribe(res => {
       if (res.status == "ok") {
