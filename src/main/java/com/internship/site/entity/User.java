@@ -1,5 +1,7 @@
 package com.internship.site.entity;
 
+import com.internship.site.service.RoleServiceImpl;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,6 +28,9 @@ public class User {
     private Set<Product> products = new HashSet<>();
 
     private String name, login, password, email;
+
+    @Enumerated(EnumType.STRING)
+    private RoleServiceImpl role;
 
     @OneToOne()
     @JoinColumn(name = "token_id")

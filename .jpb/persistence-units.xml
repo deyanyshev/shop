@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit name="Default" defaultIncludeChangeLogFile="src/main/resources/db/changelog/2022/08/31-06-changelog.xml">
+        <packages>
+          <package value="com.internship.site" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>
