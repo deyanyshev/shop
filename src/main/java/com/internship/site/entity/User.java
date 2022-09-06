@@ -1,6 +1,6 @@
 package com.internship.site.entity;
 
-import com.internship.site.service.RoleServiceImpl;
+import com.internship.site.entity.enums.Role;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -30,7 +30,7 @@ public class User {
     private String name, login, password, email;
 
     @Enumerated(EnumType.STRING)
-    private RoleServiceImpl role;
+    private Role role;
 
     @OneToOne()
     @JoinColumn(name = "token_id")

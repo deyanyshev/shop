@@ -25,6 +25,11 @@ public class UserController {
     @Autowired
     private TokenRepo tokenRepo;
 
+    /**
+     * Создание нового пользователя
+     * @param user новый пользователь
+     * @return JSON, который состоит из статуса и токена, при успешном создании статус - ok
+     */
     @PostMapping("/add")
     public String addUser(@RequestBody User user) {
         List<User> checkUser = userRepo.findByLogin(user.getLogin());
@@ -45,6 +50,11 @@ public class UserController {
         return "{ \"status\": \"ok\", \"token\": \"" + string_token + "\" }";
     }
 
+    /**
+     * Аутентификация пользователя
+     * @param user пользователь
+     * @return JSON, который состоит из статуса и токена, при успешной авторизации статус - ok
+     */
     @PostMapping("/auth")
     public String authUser(@RequestBody User user) {
         List<User> res = userRepo.findByLoginAndPassword(user.getLogin(), user.getPassword());
@@ -68,6 +78,11 @@ public class UserController {
         return "{ \"status\": \"Логин или пароль неверный\" }";
     }
 
+    /**
+     * Получение пользователя по токену
+     * @param token токен пользователя
+     * @return Пользователь
+     */
     @GetMapping("/user/{token}")
     public User isLoginUser(@PathVariable String token) {
         List<Token> tokenRes = tokenRepo.findByToken(token);
@@ -80,6 +95,10 @@ public class UserController {
         return new User(user.getName(), user.getLogin(), user.getPassword(), user.getEmail());
     }
 
+    /**
+     * Удалени пользователя по токену
+     * @param token токен пользователя
+     */
     @GetMapping("/delete/{token}")
     void deleteUser(@PathVariable String token) {
         Token myToken = tokenRepo.findByToken(token).get(0);
