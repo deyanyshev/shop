@@ -1,21 +1,25 @@
 package com.internship.site.controller;
 
+import com.internship.site.domain.JwtRequest;
+import com.internship.site.domain.JwtResponse;
 import com.internship.site.entity.Token;
 import com.internship.site.entity.User;
 import com.internship.site.repository.TokenRepo;
 import com.internship.site.repository.UserRepo;
-import com.internship.site.service.ApiService;
 import com.internship.site.service.ApiServiceImpl;
+import com.internship.site.service.MyUserDetailsService;
+import com.internship.site.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -24,6 +28,17 @@ public class UserController {
 
     @Autowired
     private TokenRepo tokenRepo;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtTokenUtil;
+
+    @Autowired
+    private MyUserDetailsService userDetailsService;
+    @Autowired
+    HttpServletRequest request;
 
     /**
      * Создание нового пользователя
@@ -40,69 +55,51 @@ public class UserController {
 
         userRepo.save(user);
 
-        String string_token = (new ApiServiceImpl()).generateToken(18);
-        Token token = new Token(string_token);
-        tokenRepo.save(token);
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(user.getLogin());
 
-        user.setToken(token);
-        userRepo.save(user);
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-        return "{ \"status\": \"ok\", \"token\": \"" + string_token + "\" }";
-    }
-
-    /**
-     * Аутентификация пользователя
-     * @param user пользователь
-     * @return JSON, который состоит из статуса и токена, при успешной авторизации статус - ok
-     */
-    @PostMapping("/auth")
-    public String authUser(@RequestBody User user) {
-        List<User> res = userRepo.findByLoginAndPassword(user.getLogin(), user.getPassword());
-
-        if (res.size() == 1) {
-            String string_token = (new ApiServiceImpl()).generateToken(18);
-            Token token = new Token(string_token);
-            tokenRepo.save(token);
-
-            User myUser = res.get(0);
-            Token oldToken = myUser.getToken();
-
-            myUser.setToken(token);
-            userRepo.save(myUser);
-
-            tokenRepo.delete(oldToken);
-
-            return "{ \"status\": \"ok\", \"token\": \"" + string_token + "\" }";
-        }
-
-        return "{ \"status\": \"Логин или пароль неверный\" }";
+        return "{ \"status\": \"ok\", \"token\": \"" + jwt + "\" }";
     }
 
     /**
      * Получение пользователя по токену
-     * @param token токен пользователя
-     * @return Пользователь
      */
-    @GetMapping("/user/{token}")
-    public User isLoginUser(@PathVariable String token) {
-        List<Token> tokenRes = tokenRepo.findByToken(token);
+    @GetMapping("/user/")
+    public User isLoginUser() {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String login = jwtTokenUtil.extractUsername(authorizationHeader);
 
-        if (tokenRes.size() == 0) {
-            return new User();
-        }
-
-        User user = tokenRes.get(0).getUser();
+        User user = userRepo.findByLogin(login).get(0);
         return new User(user.getName(), user.getLogin(), user.getPassword(), user.getEmail());
     }
 
-    /**
-     * Удалени пользователя по токену
-     * @param token токен пользователя
-     */
-    @GetMapping("/delete/{token}")
-    void deleteUser(@PathVariable String token) {
-        Token myToken = tokenRepo.findByToken(token).get(0);
-        userRepo.delete(myToken.getUser());
-        tokenRepo.delete(myToken);
+    @PostMapping("/delete/")
+    void deleteUser() {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String login = jwtTokenUtil.extractUsername(authorizationHeader);
+
+        userRepo.delete(userRepo.findByLogin(login).get(0));
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getLogin(), authenticationRequest.getPassword())
+            );
+        }
+        catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password", e);
+        }
+
+
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(authenticationRequest.getLogin());
+
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponse(jwt));
     }
 }

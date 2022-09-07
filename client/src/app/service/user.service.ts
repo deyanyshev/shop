@@ -24,11 +24,11 @@ export class UserService {
   }
 
   public deleteUser(token: string) {
-    return this.http.get('api/users/delete/' + token);
+    return this.http.get('api/users/delete/');
 }
 
   public addUser(user: User):Observable<any> {
-    return this.http.post('api/users/add', user).pipe(map((data:any) => {
+    return this.http.post('api/users/create', user).pipe(map((data:any) => {
       return data;
     }));
   }

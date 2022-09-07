@@ -77,4 +77,12 @@ public class User {
     public void setToken(Token token) {
         this.token = token;
     }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }
