@@ -21,13 +21,13 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser() {
-    this.userService.deleteUser(this.apiService.getCookie('token')).subscribe();
+    this.userService.deleteUser().subscribe();
     this.apiService.deleteCookie('token');
     location.href = '/';
   }
 
   ngOnInit(): void {
-    this.userService.getUser(this.apiService.getCookie('token')).subscribe(res => {
+    this.userService.getUser().subscribe(res => {
       this.user = res;
 
       if (this.user.login == null) location.href = '/';

@@ -1,12 +1,8 @@
 package com.internship.site.controller;
 
-import com.internship.site.domain.JwtRequest;
-import com.internship.site.domain.JwtResponse;
-import com.internship.site.entity.Token;
 import com.internship.site.entity.User;
 import com.internship.site.repository.TokenRepo;
 import com.internship.site.repository.UserRepo;
-import com.internship.site.service.ApiServiceImpl;
 import com.internship.site.service.MyUserDetailsService;
 import com.internship.site.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +47,7 @@ public class UserController {
         List<User> checkUser = userRepo.findByLogin(user.getLogin());
 
         if (checkUser.size() > 0) {
-            return "{ \"status\": Данный логин уже занят\" }";
+            return "{ \"status\": \"`Данный логин уже занят\" }";
         }
 
         userRepo.save(user);
@@ -66,16 +63,18 @@ public class UserController {
     /**
      * Получение пользователя по токену
      */
-    @GetMapping("/user/")
-    public User isLoginUser() {
+    @GetMapping("/user")
+    public User getUser() {
         final String authorizationHeader = request.getHeader("Authorization");
-        String login = jwtTokenUtil.extractUsername(authorizationHeader);
+        String jwt = authorizationHeader.substring(7);
 
+        String login = jwtTokenUtil.extractUsername(jwt);
         User user = userRepo.findByLogin(login).get(0);
+
         return new User(user.getName(), user.getLogin(), user.getPassword(), user.getEmail());
     }
 
-    @PostMapping("/delete/")
+    @PostMapping("/delete")
     void deleteUser() {
         final String authorizationHeader = request.getHeader("Authorization");
         String login = jwtTokenUtil.extractUsername(authorizationHeader);
@@ -84,10 +83,10 @@ public class UserController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+    public String createAuthenticationToken(@RequestBody User user) throws Exception {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getLogin(), authenticationRequest.getPassword())
+                    new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword())
             );
         }
         catch (BadCredentialsException e) {
@@ -96,10 +95,10 @@ public class UserController {
 
 
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.getLogin());
+                .loadUserByUsername(user.getLogin());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        return "{ \"status\": \"ok\", \"token\": \"" + jwt + "\" }";
     }
 }

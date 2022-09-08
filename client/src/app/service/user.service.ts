@@ -11,8 +11,8 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  public getUser(token: string):Observable<User> {
-    return this.http.get('api/users/user/' + token).pipe(map((data:any) => {
+  public getUser():Observable<User> {
+    return this.http.get('api/users/user/').pipe(map((data:any) => {
       return data;
     }));
   }
@@ -23,12 +23,12 @@ export class UserService {
     }));
   }
 
-  public deleteUser(token: string) {
+  public deleteUser() {
     return this.http.get('api/users/delete/');
 }
 
   public addUser(user: User):Observable<any> {
-    return this.http.post('api/users/create', user).pipe(map((data:any) => {
+    return this.http.post('api/users/add', user).pipe(map((data:any) => {
       return data;
     }));
   }

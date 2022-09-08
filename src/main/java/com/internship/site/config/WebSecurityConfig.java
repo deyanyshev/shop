@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers(
                         "/api/users/auth",
                         "/api/users/add",
-                        "api/products"
+                        "/api/products"
                 ).permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().and().sessionManagement()

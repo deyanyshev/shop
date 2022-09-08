@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import {NgModel, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ProductComponent } from './components/product/product.component';
@@ -18,6 +18,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
 import {ApiService} from "./service/api.service";
 import { CreatingProductComponent } from './components/creating-product/creating-product.component';
+import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
 
 
 @NgModule({
@@ -40,7 +41,12 @@ import { CreatingProductComponent } from './components/creating-product/creating
         NgbModule,
         ReactiveFormsModule
     ],
-  providers: [ProductService, UserService, ApiService],
+  providers: [
+    ProductService,
+    UserService,
+    ApiService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent, AuthComponent]
 })
 export class AppModule { }

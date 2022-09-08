@@ -26,7 +26,13 @@ export class AuthComponent implements OnInit {
    */
   logIn() {
     this.userService.logInUser(this.inputUser).subscribe(res => {
-      console.log(res.jwt);
+      if (res.status == "ok") {
+        this.apiService.setCookie('token', res.token, 5);
+      } else {
+        alert(res.status);
+      }
+    }, error => {
+      alert("Неверный логин или пароль");
     });
   }
 
@@ -36,7 +42,7 @@ export class AuthComponent implements OnInit {
   addUser() {
     this.userService.addUser(this.newUser).subscribe(res => {
       if (res.status == "ok") {
-        this.apiService.setCookie('token', res.token,5);
+        this.apiService.setCookie('token', res.token, 5);
         location.href = '/';
       } else {
         alert(res.status);
