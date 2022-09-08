@@ -32,10 +32,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne()
-    @JoinColumn(name = "token_id")
-    private Token token;
-
     public User() {
     }
 
@@ -70,13 +66,6 @@ public class User {
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
 
     public Role getRole() {
         return role;

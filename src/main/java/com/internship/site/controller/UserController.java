@@ -1,16 +1,13 @@
 package com.internship.site.controller;
 
 import com.internship.site.entity.User;
-import com.internship.site.repository.TokenRepo;
 import com.internship.site.repository.UserRepo;
 import com.internship.site.service.MyUserDetailsService;
 import com.internship.site.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +19,6 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserRepo userRepo;
-
-    @Autowired
-    private TokenRepo tokenRepo;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -77,7 +71,8 @@ public class UserController {
     @PostMapping("/delete")
     void deleteUser() {
         final String authorizationHeader = request.getHeader("Authorization");
-        String login = jwtTokenUtil.extractUsername(authorizationHeader);
+        String jwt = authorizationHeader.substring(7);
+        String login = jwtTokenUtil.extractUsername(jwt);
 
         userRepo.delete(userRepo.findByLogin(login).get(0));
     }

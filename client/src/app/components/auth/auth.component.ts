@@ -28,6 +28,7 @@ export class AuthComponent implements OnInit {
     this.userService.logInUser(this.inputUser).subscribe(res => {
       if (res.status == "ok") {
         this.apiService.setCookie('token', res.token, 5);
+        location.href = '/';
       } else {
         alert(res.status);
       }

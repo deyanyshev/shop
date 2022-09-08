@@ -24,7 +24,7 @@ export class UserService {
   }
 
   public deleteUser() {
-    return this.http.get('api/users/delete/');
+    return this.http.post('api/users/delete/', {});
 }
 
   public addUser(user: User):Observable<any> {
