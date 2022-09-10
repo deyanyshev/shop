@@ -2,6 +2,8 @@ import {Component, Directive, OnInit} from '@angular/core';
 import {UserService} from '../../service/user.service';
 import {User} from "../../models/user";
 import {ApiService} from "../../service/api.service";
+import {map} from "rxjs/operators";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 
 @Component({
@@ -25,29 +27,31 @@ export class AuthComponent implements OnInit {
    * Авторизация пользователя
    */
   logIn() {
-    this.userService.logInUser(this.inputUser).subscribe(res => {
-      if (res.status == "ok") {
-        this.apiService.setCookie('token', res.token, 5);
-        location.href = '/';
-      } else {
-        alert(res.status);
-      }
-    }, error => {
-      alert("Неверный логин или пароль");
-    });
+    this.userService.logInUser(this.inputUser).pipe(
+      map((res:any) => {
+        if (res.status == "ok") {
+          this.apiService.setCookie('token', res.token, 5);
+          location.href = '/';
+        } else {
+          alert(res.status);
+        }
+      })).subscribe();
   }
+
 
   /**
    * Добавление нового пользователя
    */
   addUser() {
-    this.userService.addUser(this.newUser).subscribe(res => {
-      if (res.status == "ok") {
-        this.apiService.setCookie('token', res.token, 5);
-        location.href = '/';
-      } else {
-        alert(res.status);
+    this.userService.addUser(this.newUser).pipe(
+      map((res:any) => {
+        if (res.status == "ok") {
+          this.apiService.setCookie('token', res.token, 5);
+          location.href = '/';
+        } else {
+          alert(res.status);
+        }
       }
-    });
+    )).subscribe();
   }
 }

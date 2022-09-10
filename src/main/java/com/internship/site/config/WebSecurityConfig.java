@@ -1,6 +1,6 @@
 package com.internship.site.config;
 
-import com.internship.site.filters.JwtRequestFilter;
+import com.internship.site.jwt.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().
                 antMatchers(
                         "/api/users/auth",
+                        "/api/users/check-auth",
                         "/api/users/add",
                         "/api/products"
                 ).permitAll().

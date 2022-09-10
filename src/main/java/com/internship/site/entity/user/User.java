@@ -1,5 +1,6 @@
-package com.internship.site.entity;
+package com.internship.site.entity.user;
 
+import com.internship.site.entity.Product;
 import com.internship.site.entity.enums.Role;
 
 import javax.persistence.*;
@@ -35,11 +36,12 @@ public class User {
     public User() {
     }
 
-    public User(String name, String login, String password, String email) {
+    public User(String name, String login, String password, String email, Role role) {
         this.name = name;
         this.login = login;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     public Set<Product> getProducts() { return products; }

@@ -1,6 +1,6 @@
 package com.internship.site.repository;
 
-import com.internship.site.entity.User;
+import com.internship.site.entity.user.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

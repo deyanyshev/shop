@@ -1,4 +1,4 @@
-package com.internship.site.util;
+package com.internship.site.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

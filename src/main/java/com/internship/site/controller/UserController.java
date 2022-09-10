@@ -1,9 +1,10 @@
 package com.internship.site.controller;
 
-import com.internship.site.entity.User;
+import com.internship.site.entity.enums.Role;
+import com.internship.site.entity.user.User;
 import com.internship.site.repository.UserRepo;
 import com.internship.site.service.MyUserDetailsService;
-import com.internship.site.util.JwtUtil;
+import com.internship.site.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,6 +32,18 @@ public class UserController {
     @Autowired
     HttpServletRequest request;
 
+    @GetMapping("/check-auth")
+    public Boolean isLoggedIn() {
+        try {
+            final String authorizationHeader = request.getHeader("Authorization");
+            String jwt = authorizationHeader.substring(7);
+
+            return jwtTokenUtil.validateToken(jwt, userDetailsService.loadUserByUsername(jwtTokenUtil.extractUsername(jwt)));
+        } catch (Exception err) {
+            return false;
+        }
+    }
+
     /**
      * Создание нового пользователя
      * @param user новый пользователь
@@ -39,6 +52,7 @@ public class UserController {
     @PostMapping("/add")
     public String addUser(@RequestBody User user) {
         List<User> checkUser = userRepo.findByLogin(user.getLogin());
+        user.setRole(Role.ROLE_CLIENT);
 
         if (checkUser.size() > 0) {
             return "{ \"status\": \"`Данный логин уже занят\" }";
@@ -65,11 +79,11 @@ public class UserController {
         String login = jwtTokenUtil.extractUsername(jwt);
         User user = userRepo.findByLogin(login).get(0);
 
-        return new User(user.getName(), user.getLogin(), user.getPassword(), user.getEmail());
+        return new User(user.getName(), user.getLogin(), user.getPassword(), user.getEmail(), user.getRole());
     }
 
     @PostMapping("/delete")
-    void deleteUser() {
+    public void deleteUser() {
         final String authorizationHeader = request.getHeader("Authorization");
         String jwt = authorizationHeader.substring(7);
         String login = jwtTokenUtil.extractUsername(jwt);
@@ -78,14 +92,14 @@ public class UserController {
     }
 
     @PostMapping("/auth")
-    public String createAuthenticationToken(@RequestBody User user) throws Exception {
+    public String logInUser(@RequestBody User user) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getLogin(), user.getPassword())
             );
         }
-        catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+        catch (Exception e) {
+            return "{ \"status\": \"Неверный логин или пароль\" }";
         }
 
 

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {ApiService} from "../../service/api.service";
+import {map} from "rxjs/operators";
+import {bottom} from "@popperjs/core";
 
 @Component({
   selector: 'app-header',
@@ -9,15 +11,17 @@ import {ApiService} from "../../service/api.service";
 })
 export class HeaderComponent implements OnInit {
   path = window.location.pathname;
-  isLogin = false; /** Флаг авторизации пользователя, нужен для рендера верных шаблонов **/
+  isLoggedIn = false; /** Флаг авторизации пользователя, нужен для рендера верных шаблонов **/
 
   constructor(private userService: UserService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     /** Определение флага авторизации пользователя **/
-    this.userService.getUser().subscribe(res => {
-      if (res.login != null) this.isLogin = true;
-    })
+    this.userService.isLoggedIn().pipe(
+      map((data:boolean) => {
+        this.isLoggedIn = data;
+      })
+    ).subscribe();
   }
 
 }

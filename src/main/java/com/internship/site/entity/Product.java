@@ -1,5 +1,7 @@
 package com.internship.site.entity;
 
+import com.internship.site.entity.user.User;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;

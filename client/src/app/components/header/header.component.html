@@ -9,11 +9,11 @@
         <a class="nav-link header-li" href="/">Главная</a>
       </li>
 
-      <li *ngIf="isLogin" class="nav-item" [className]="path == '/profile' ? 'active' : ''">
+      <li *ngIf="isLoggedIn" class="nav-item" [className]="path == '/profile' ? 'active' : ''">
         <a class="nav-link header-li" href="/profile">Профиль</a>
       </li>
 
-      <li *ngIf="!isLogin" class="nav-item" [className]="path == '/auth' ? 'active' : ''">
+      <li *ngIf="!isLoggedIn" class="nav-item" [className]="path == '/auth' ? 'active' : ''">
         <a class="nav-link header-li" href="/auth">Вход и регистрация</a>
       </li>
 

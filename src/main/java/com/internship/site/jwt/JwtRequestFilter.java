@@ -1,8 +1,8 @@
-package com.internship.site.filters;
+package com.internship.site.jwt;
 
 
 import com.internship.site.service.MyUserDetailsService;
-import com.internship.site.util.JwtUtil;
+import com.internship.site.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

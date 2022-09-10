@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../service/user.service';
 import {User} from "../../models/user";
 import {ApiService} from "../../service/api.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-user',
@@ -27,10 +28,10 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getUser().subscribe(res => {
-      this.user = res;
-
-      if (this.user.login == null) location.href = '/';
-    })
+    this.userService.getUser().pipe(
+      map((data:any) => {
+        this.user = data;
+      })
+    ).subscribe();
   }
 }

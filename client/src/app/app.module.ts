@@ -19,6 +19,9 @@ import { HeaderComponent } from './components/header/header.component';
 import {ApiService} from "./service/api.service";
 import { CreatingProductComponent } from './components/creating-product/creating-product.component';
 import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
+import {NotAuthGuard} from "./guards/not-auth.guard";
+import {AuthGuard} from "./guards/auth.guard";
+import {AdminGuard} from "./guards/admin.guard";
 
 
 @NgModule({
@@ -45,6 +48,9 @@ import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
     ProductService,
     UserService,
     ApiService,
+    NotAuthGuard,
+    AuthGuard,
+    AdminGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent, AuthComponent]
