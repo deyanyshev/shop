@@ -4,7 +4,11 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table (name = "types")
+@Table (name = "types", uniqueConstraints =
+        {
+                @UniqueConstraint(columnNames = "name")
+        }
+)
 public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +21,10 @@ public class Type {
 
     public List<Product> getProducts() {
         return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public String getName() {

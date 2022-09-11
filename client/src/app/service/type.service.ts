@@ -2,18 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Product } from '../models/product';
 import { Observable } from 'rxjs';
+import {Type} from "../models/type";
 
 @Injectable()
-export class ProductService {
+export class TypeService {
 
   constructor(private http: HttpClient) {
   }
 
-  public findAll(): Observable<Product[]> {
-    return this.http.get<Product[]>('api/products');
-  }
-
-  public save(product: Product) {
-    return this.http.post('api/products/add', product);
+  public findAll(): Observable<Type[]> {
+    return this.http.get<Type[]>('api/products/types');
   }
 }

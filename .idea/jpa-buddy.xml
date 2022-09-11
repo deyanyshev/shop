@@ -5,5 +5,7 @@
     <option name="renamerInitialized" value="true" />
     <option name="sourceModelValue" value="Default" />
     <option name="targetDbValue" value="4bd8bc66-4831-4ce2-950e-41bca57b73fd" />
+    <option name="updateChangeLogPath" value="src/main/resources/db/changelog/2022/09/06-01-changelog.xml" />
+    <option name="updateDbConnectionName" value="4bd8bc66-4831-4ce2-950e-41bca57b73fd" />
   </component>
 </project>

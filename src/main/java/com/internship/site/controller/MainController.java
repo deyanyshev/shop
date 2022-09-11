@@ -24,15 +24,4 @@ public class MainController {
 
     @Autowired
     private CountryRepo countryRepo;
-
-
-    @GetMapping("/products")
-    public List getProducts() {
-        return (List) productRepo.findAll();
-    }
-
-    @PostMapping("/add-product")
-    public void addProduct(@RequestBody Product product) {
-        productRepo.save(product);
-    }
 }

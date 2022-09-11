@@ -1,6 +1,6 @@
 <app-header></app-header>
 
-<div class="auth-form">
+<div class="form">
   <div class="form-group"><h3 class="form-header">Добавление продукта</h3></div>
 
   <div class="form-group">
@@ -20,28 +20,54 @@
   </div>
 
   <div class="form-group">
-    <label>Тип продукта</label>
-    <input class="form-control" name="type" [(ngModel)]="newProduct.type" #newType="ngModel" required> <!--matInput [matAutocomplete]="auto"-->
-    <!--<mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-        {{option}}
-      </mat-option>
-    </mat-autocomplete>-->
-
-    <div *ngIf="newType.invalid && newType.touched" class="alert alert-danger">
-      Тип продукта не указан
-  </div>
+    <label>Фото продукта</label>
+    <input class="form-control" #imgInput type="file" accept="image/*" (change)="processFile(imgInput)" required>
   </div>
 
   <div class="form-group">
-    <label>Страна</label>
-    <input class="form-control" name="country" [(ngModel)]="newProduct.country" #newCountry="ngModel" required/>
-    <div *ngIf="newCountry.invalid && newCountry.touched" class="alert alert-danger">
-      Страна не указана
+    <label>Тип продукта</label>
+    <input style="border: 1px solid #ced4da; padding: 0 0.75rem; font-size: 1rem" class="form-control" name="type" [(ngModel)]="type.name" [formControl]="typeControl"
+           [matAutocomplete]="typeAuto" matInput required>
+
+    <mat-autocomplete #typeAuto="matAutocomplete">
+      <mat-option *ngFor="let type of filteredTypes | async" [value]="type.name">
+        {{type.name}}
+      </mat-option>
+    </mat-autocomplete>
+
+    <div *ngIf="typeControl.invalid && typeControl.touched" class="alert alert-danger">
+      Категория продукта не указана
     </div>
   </div>
 
   <div class="form-group">
-    <button [disabled]="newName.invalid || newDescription.invalid || newType.invalid" class="btn btn-danger submit-btn" type="submit">Отправить</button>
+    <label>Страна</label>
+    <input style="border: 1px solid #ced4da; padding: 0 0.75rem; font-size: 1rem" class="form-control" name="country" [(ngModel)]="country.name" [formControl]="countryControl"
+           [matAutocomplete]="countryAuto" matInput required>
+
+    <mat-autocomplete #countryAuto="matAutocomplete">
+      <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
+        {{country.name}}
+      </mat-option>
+    </mat-autocomplete>
+
+    <div *ngIf="countryControl.invalid && countryControl.touched" class="alert alert-danger">
+      Страна не указана
+    </div>
+  </div>
+
+  <mat-form-field>
+    <mat-label>Цена</mat-label>
+    <input matInput type="number" min="1" step="10" name="cost" [(ngModel)]="newProduct.cost" #newCost="ngModel"  required />
+    <span matSuffix>₽</span>
+    <div style="width: 110%; font-size: 15px; padding: 10px" *ngIf="newCost.invalid && newCost.touched" class="alert alert-danger">
+      Стоимость не указана или указана неверно
+    </div>
+  </mat-form-field>
+
+  <div class="form-group">
+    <button [disabled]="newName.invalid || newDescription.invalid || typeControl.invalid || countryControl.invalid || newCost.invalid" class="btn btn-danger submit-btn" type="submit" (click)="addProduct()">Добавить</button>
   </div>
 </div>
+
+<div style="height: 30px"></div>

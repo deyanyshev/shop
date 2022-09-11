@@ -22,6 +22,13 @@ import {AuthInterceptor} from "./http-interceptors/auth-interceptor";
 import {NotAuthGuard} from "./guards/not-auth.guard";
 import {AuthGuard} from "./guards/auth.guard";
 import {AdminGuard} from "./guards/admin.guard";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatInputModule} from "@angular/material/input";
+import {TypeService} from "./service/type.service";
+import {CountryService} from "./service/country.service";
+import {FileService} from "./service/file.service";
+import {FileSaverModule} from "ngx-filesaver";
 
 
 @NgModule({
@@ -36,18 +43,25 @@ import {AdminGuard} from "./guards/admin.guard";
     HeaderComponent,
     CreatingProductComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        FormsModule,
-        NgbModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    NgbModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    FileSaverModule
+  ],
   providers: [
     ProductService,
     UserService,
     ApiService,
+    TypeService,
+    CountryService,
+    FileService,
     NotAuthGuard,
     AuthGuard,
     AdminGuard,

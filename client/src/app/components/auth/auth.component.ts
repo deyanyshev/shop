@@ -30,7 +30,7 @@ export class AuthComponent implements OnInit {
     this.userService.logInUser(this.inputUser).pipe(
       map((res:any) => {
         if (res.status == "ok") {
-          this.apiService.setCookie('token', res.token, 5);
+          this.apiService.setCookie('token', res.token, 2);
           location.href = '/';
         } else {
           alert(res.status);
@@ -46,7 +46,7 @@ export class AuthComponent implements OnInit {
     this.userService.addUser(this.newUser).pipe(
       map((res:any) => {
         if (res.status == "ok") {
-          this.apiService.setCookie('token', res.token, 5);
+          this.apiService.setCookie('token', res.token, 2);
           location.href = '/';
         } else {
           alert(res.status);

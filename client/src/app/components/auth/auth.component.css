@@ -8,6 +8,7 @@
 
 .form-header {
   text-align: center;
+  font-size: 24px;
 }
 
 label {
@@ -20,7 +21,7 @@ label {
 }
 
 .submit-btn {
-  margin-top: 4px;
+  margin-top: 0px;
   background-color: cornflowerblue;
   color: #fff;
   transition: .5s;
@@ -28,4 +29,9 @@ label {
 
 .submit-btn:hover {
   background-color: crimson;
+  color: snow;
+}
+
+.alert {
+  margin-top: 3px;
 }
