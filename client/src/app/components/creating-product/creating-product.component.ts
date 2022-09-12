@@ -8,12 +8,8 @@ import {map, startWith} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {FormControl} from '@angular/forms';
 import {FileService} from "../../service/file.service";
-import {FileSaverService} from "ngx-filesaver";
 import {ProductService} from "../../service/product.service";
-
-class ImageSnippet {
-  constructor(public src: string, public file: File) {}
-}
+import {ApiService} from "../../service/api.service";
 
 @Component({
   selector: 'app-creating-product',
@@ -33,9 +29,9 @@ export class CreatingProductComponent implements OnInit {
   filteredCountries: Observable<Country[]>;
   countryControl = new FormControl<string|Country>('');
 
-  selectedFile: ImageSnippet;
-
-  constructor(private productService:ProductService, private typeService: TypeService, private countryService: CountryService, private fileSaverService: FileSaverService) {
+  constructor(private productService:ProductService, private typeService: TypeService,
+              private countryService: CountryService, private apiService: ApiService,
+              private fileService: FileService) {
     this.newProduct = new Product();
     this.type = new Type();
     this.country = new Country();
@@ -77,23 +73,31 @@ export class CreatingProductComponent implements OnInit {
     return this.countries.filter(country => country.name.toLowerCase().includes(filteredValue));
   }
 
-  addProduct() {
-    //Сохранение изображения
-
-    /////////////////////
-
+  addProduct(imgInput: any) {
     this.newProduct.type = this.type;
     this.newProduct.country = this.country;
     this.newProduct.img = "";
 
-    this.productService.save(this.newProduct).subscribe(
-      data => {
-        location.href = '/';
+    const file: File = imgInput.files[0];
+    const filename = 'static/img/' + this.apiService.generateRandomString() + '.' + file.name.split('.').slice(-1)[0];
+
+    this.fileService.uploadFile(file, filename).
+    subscribe(data => {
+        this.newProduct.img = filename;
+        this.productService.save(this.newProduct).subscribe(
+          data => {
+            alert("Продукт добавлен успешно");
+            location.reload();
+          }
+        );
       }
     );
+
+
   }
 
-  processFile(imgInput: any) {
+  sendImg(imgInput: any) {
     const file: File = imgInput.files[0];
+    this.fileService.uploadFile(file, this.apiService.generateRandomString() + '.' + file.name.split('.').slice(-1)[0]).subscribe();
   }
 }

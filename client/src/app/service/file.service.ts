@@ -8,15 +8,10 @@ export class FileService {
   constructor(private http: HttpClient) {
   }
 
-  public uploadFile(dataurl: any, filename: any, format: any) {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    saveAs(new File([u8arr], filename, {type: format}));
+  public uploadFile(file: File, name: string) {
+    const formData = new FormData();
+    formData.append('img', file, name);
+    return this.http.post('/api/products/add-img', formData);
   }
+
 }

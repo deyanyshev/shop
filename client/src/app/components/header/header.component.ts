@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {ApiService} from "../../service/api.service";
 import {map} from "rxjs/operators";
-import {bottom} from "@popperjs/core";
+import {User} from "../../models/user";
+import {Role} from "../../models/enums/role"
 
 @Component({
   selector: 'app-header',
@@ -12,6 +12,8 @@ import {bottom} from "@popperjs/core";
 export class HeaderComponent implements OnInit {
   path = window.location.pathname;
   isLoggedIn = false; /** Флаг авторизации пользователя, нужен для рендера верных шаблонов **/
+  user: User;
+  roles = Role;
 
   constructor(private userService: UserService) { }
 
@@ -20,6 +22,11 @@ export class HeaderComponent implements OnInit {
     this.userService.isLoggedIn().pipe(
       map((data:boolean) => {
         this.isLoggedIn = data;
+        this.userService.getUser().pipe(
+          map(user => {
+            this.user = user;
+          })
+        ).subscribe();
       })
     ).subscribe();
   }

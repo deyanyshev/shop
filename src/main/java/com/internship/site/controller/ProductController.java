@@ -17,8 +17,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -48,13 +54,30 @@ public class ProductController {
     @Autowired
     private CountryRepo countryRepo;
 
+    @GetMapping("/get-all")
+    public void getAllProducts() {
+
+    }
+
+    @PostMapping("/add-img")
+    public void addImg(@RequestParam(value="img") MultipartFile image) throws IOException {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
+        String login = jwtTokenUtil.extractUsername(jwt);
+        Role role = userRepo.findByLogin(login).getRole();
+
+        if (role == Role.ROLE_ADMINISTRATOR || role == Role.ROLE_SUPER_ADMINISTRATOR) {
+            Files.write(Paths.get("src/main/resources/" + image.getOriginalFilename()), image.getBytes());
+        }
+    }
+
     @PostMapping("/add")
     public void addProduct(@RequestBody Product product) {
         final String authorizationHeader = request.getHeader("Authorization");
         String jwt = authorizationHeader.substring(7);
         String login = jwtTokenUtil.extractUsername(jwt);
 
-        Role role = userRepo.findByLogin(login).get(0).getRole();
+        Role role = userRepo.findByLogin(login).getRole();
 
         if (role == Role.ROLE_ADMINISTRATOR || role == Role.ROLE_SUPER_ADMINISTRATOR) {
             Type type = typeRepo.findByName(product.getType().getName());

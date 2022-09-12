@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/users")
@@ -31,6 +32,25 @@ public class UserController {
     private MyUserDetailsService userDetailsService;
     @Autowired
     HttpServletRequest request;
+
+    @GetMapping("/get-all")
+    public List<User> getUsers() {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
+
+        String login = jwtTokenUtil.extractUsername(jwt);
+        User myUser = userRepo.findByLogin(login);
+
+        if (myUser.getRole() == Role.ROLE_ADMINISTRATOR || myUser.getRole() == Role.ROLE_SUPER_ADMINISTRATOR) {
+            List<User> users = userRepo.findAllByOrderByIdAsc();
+            for (User user: users) {
+                user.setProducts(null);
+            }
+            return users;
+        }
+
+        return null;
+    }
 
     @GetMapping("/check-auth")
     public Boolean isLoggedIn() {
@@ -51,11 +71,30 @@ public class UserController {
      */
     @PostMapping("/add")
     public String addUser(@RequestBody User user) {
-        List<User> checkUser = userRepo.findByLogin(user.getLogin());
-        user.setRole(Role.ROLE_CLIENT);
+        User checkUser = userRepo.findByLogin(user.getLogin());
 
-        if (checkUser.size() > 0) {
+        if (checkUser != null) {
             return "{ \"status\": \"`Данный логин уже занят\" }";
+        }
+
+        if (request.getHeader("Authorization") != null && user.getRole() == Role.ROLE_ADMINISTRATOR) {
+            try {
+                final String authorizationHeader = request.getHeader("Authorization");
+                String jwt = authorizationHeader.substring(7);
+
+                String login = jwtTokenUtil.extractUsername(jwt);
+                User myUser = userRepo.findByLogin(login);
+
+                if (myUser.getRole() == Role.ROLE_SUPER_ADMINISTRATOR) {
+                    user.setRole(Role.ROLE_ADMINISTRATOR);
+                } else {
+                    user.setRole(Role.ROLE_CLIENT);
+                }
+            } catch (Exception err) {
+                user.setRole(Role.ROLE_CLIENT);
+            }
+        } else {
+            user.setRole(Role.ROLE_CLIENT);
         }
 
         userRepo.save(user);
@@ -77,18 +116,21 @@ public class UserController {
         String jwt = authorizationHeader.substring(7);
 
         String login = jwtTokenUtil.extractUsername(jwt);
-        User user = userRepo.findByLogin(login).get(0);
+        User user = userRepo.findByLogin(login);
 
         return new User(user.getName(), user.getLogin(), user.getPassword(), user.getEmail(), user.getRole());
     }
 
     @PostMapping("/delete")
-    public void deleteUser() {
+    public void deleteUser(@RequestBody User user) {
         final String authorizationHeader = request.getHeader("Authorization");
         String jwt = authorizationHeader.substring(7);
         String login = jwtTokenUtil.extractUsername(jwt);
+        User myUser = userRepo.findByLogin(login);
 
-        userRepo.delete(userRepo.findByLogin(login).get(0));
+        if (Objects.equals(login, user.getLogin()) || myUser.getRole() == Role.ROLE_SUPER_ADMINISTRATOR) {
+            userRepo.delete(user);
+        }
     }
 
     @PostMapping("/auth")

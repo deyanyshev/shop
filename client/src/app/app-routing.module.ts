@@ -9,6 +9,8 @@ import {CreatingProductComponent} from "./components/creating-product/creating-p
 import {NotAuthGuard} from "./guards/not-auth.guard";
 import {AuthGuard} from "./guards/auth.guard";
 import {AdminGuard} from "./guards/admin.guard";
+import {AdminComponent} from "./components/admin/admin.component";
+import {SuperAdminGuard} from "./guards/super-admin.guard";
 
 const routes: Routes = [
   { path: '', component: ProductsComponent },
@@ -16,6 +18,7 @@ const routes: Routes = [
   { path: 'profile', component: UserComponent, canActivate: [AuthGuard] },
   { path: 'basket', component: BasketComponent, canActivate: [AuthGuard] },
   { path: 'create-product', component: CreatingProductComponent, canActivate: [AdminGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [SuperAdminGuard] },
   { path: '**', component: NotfoundComponent }
 ];
 

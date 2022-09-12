@@ -13,7 +13,11 @@ export class UserService {
   }
 
   public isLoggedIn():Observable<boolean> {
-    return this.http.get<boolean>('/api/users/check-auth');
+    return this.http.get<boolean>('api/users/check-auth');
+  }
+
+  public getAllUsers():Observable<User[]> {
+    return this.http.get<User[]>('api/users/get-all');
   }
 
   public getUser():Observable<User> {
@@ -24,9 +28,9 @@ export class UserService {
     return this.http.post('api/users/auth', user);
   }
 
-  public deleteUser() {
-    return this.http.post('api/users/delete', {});
-}
+  public deleteUser(user: User) {
+    return this.http.post('api/users/delete', user);
+  }
 
   public addUser(user: User) {
     return this.http.post('api/users/add', user);

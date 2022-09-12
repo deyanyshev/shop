@@ -3,7 +3,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="/" style="font-size: 29px">Интернет-магазин</a>
+    <a class="navbar-brand" href="/" style="font-size: 25px">Магазин</a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
       <li class="nav-item" [className]="path == '/' ? 'active' : ''">
         <a class="nav-link header-li" href="/">Главная</a>
@@ -19,6 +19,14 @@
 
       <li class="nav-item" [className]="path == '/basket' ? 'active' : ''">
         <a class="nav-link header-li" href="/basket">Корзина</a>
+      </li>
+
+      <li *ngIf="user.role == roles.admin || user.role == roles.super_admin" class="nav-item" [className]="path == '/create-product' ? 'active' : ''">
+        <a class="nav-link header-li" href="/create-product">Добавить продукт</a>
+      </li>
+
+      <li *ngIf="user.role == roles.super_admin" class="nav-item" [className]="path == '/admin' ? 'active' : ''">
+        <a class="nav-link header-li" href="/admin">Админ-панель</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">

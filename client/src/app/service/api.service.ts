@@ -32,4 +32,16 @@ export class ApiService {
     let expires:string = `expires=${d.toUTCString()}`;
     document.cookie = `${name}=${value}; ${expires}`;
   }
+
+  public generateRandomString() {
+    let possible = "qwertyuiopasdfghjklzxcvbnm1234567890";
+    let size = Math.floor(Math.random() * 7) + 15;
+    let result = '';
+
+    for (let i = 0; i < size; ++i) {
+      result += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    return result;
+  }
 }

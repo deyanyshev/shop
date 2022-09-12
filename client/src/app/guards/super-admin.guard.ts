@@ -6,14 +6,14 @@ import {map} from "rxjs/operators";
 import {Role} from "../models/enums/role";
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class SuperAdminGuard implements CanActivate {
   constructor(private router: Router, private userService: UserService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> {
     return this.userService.getUser().pipe(
       map((user) => {
-        if (user.role == Role.admin || user.role == Role.super_admin) {
+        if (user.role == Role.super_admin) {
           return true;
         } else {
           this.router.navigateByUrl('/');

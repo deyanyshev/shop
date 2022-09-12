@@ -21,7 +21,7 @@
 
   <div class="form-group">
     <label>Фото продукта</label>
-    <input class="form-control" #imgInput type="file" accept="image/*" (change)="processFile(imgInput)" required>
+    <input class="form-control" #imgInput type="file" accept="image/*" required>
   </div>
 
   <div class="form-group">
@@ -66,7 +66,7 @@
   </mat-form-field>
 
   <div class="form-group">
-    <button [disabled]="newName.invalid || newDescription.invalid || typeControl.invalid || countryControl.invalid || newCost.invalid" class="btn btn-danger submit-btn" type="submit" (click)="addProduct()">Добавить</button>
+    <button [disabled]="newName.invalid || newDescription.invalid || typeControl.invalid || countryControl.invalid || newCost.invalid" class="btn btn-danger submit-btn" type="submit" (click)="addProduct(imgInput); ">Добавить</button>
   </div>
 </div>
 

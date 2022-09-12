@@ -47,7 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/users/add",
                         "/api/products",
                         "/api/products/types",
-                        "/api/products/countries"
+                        "/api/products/countries",
+                        "/api/products/get-all",
+                        "/static/**"
                 ).permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().and().sessionManagement()

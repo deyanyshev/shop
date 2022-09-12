@@ -22,7 +22,7 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser() {
-    this.userService.deleteUser().subscribe();
+    this.userService.deleteUser(this.user).subscribe();
     this.apiService.deleteCookie('token');
     location.href = '/';
   }

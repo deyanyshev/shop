@@ -29,6 +29,10 @@ import {TypeService} from "./service/type.service";
 import {CountryService} from "./service/country.service";
 import {FileService} from "./service/file.service";
 import {FileSaverModule} from "ngx-filesaver";
+import { AdminComponent } from './components/admin/admin.component';
+import {SuperAdminGuard} from "./guards/super-admin.guard";
+import {MatTableModule} from "@angular/material/table";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -41,7 +45,8 @@ import {FileSaverModule} from "ngx-filesaver";
     ProductsComponent,
     BasketComponent,
     HeaderComponent,
-    CreatingProductComponent
+    CreatingProductComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +58,9 @@ import {FileSaverModule} from "ngx-filesaver";
     BrowserAnimationsModule,
     MatAutocompleteModule,
     MatInputModule,
-    FileSaverModule
+    FileSaverModule,
+    MatTableModule,
+    MatButtonModule
   ],
   providers: [
     ProductService,
@@ -65,6 +72,7 @@ import {FileSaverModule} from "ngx-filesaver";
     NotAuthGuard,
     AuthGuard,
     AdminGuard,
+    SuperAdminGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],
   bootstrap: [AppComponent, AuthComponent]
