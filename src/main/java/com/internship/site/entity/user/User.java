@@ -5,6 +5,7 @@ import com.internship.site.entity.enums.Role;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -25,7 +26,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private Set<Product> products = new HashSet<>();
+    private List<Product> products = null;
 
     private String name, login, password, email;
 
@@ -43,10 +44,14 @@ public class User {
         this.role = role;
     }
 
-    public Set<Product> getProducts() { return products; }
+    public List<Product> getProducts() { return products; }
 
-    public void setProducts(Set<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
+    }
+
+    public void setProduct(Product product) {
+        this.products.add(product);
     }
 
     public void addProduct(Product product) {

@@ -3,7 +3,6 @@ import {UserService} from "../../service/user.service";
 import {map} from "rxjs/operators";
 import {User} from "../../models/user";
 import {Role} from "../../models/enums/role"
-import {ApiService} from "../../service/api.service";
 
 @Component({
   selector: 'app-header',
@@ -17,7 +16,7 @@ export class HeaderComponent implements OnInit {
   roles = Role;
   nameProduct: string = '';
 
-  constructor(private userService: UserService, private apiService: ApiService) { }
+  constructor(private userService: UserService) { }
 
   async ngOnInit() {
     /** Определение флага авторизации пользователя **/

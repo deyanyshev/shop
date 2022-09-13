@@ -4,6 +4,7 @@ import com.internship.site.entity.Country;
 import com.internship.site.entity.Product;
 import com.internship.site.entity.Type;
 import com.internship.site.entity.enums.Role;
+import com.internship.site.entity.user.User;
 import com.internship.site.repository.CountryRepo;
 import com.internship.site.repository.ProductRepo;
 import com.internship.site.repository.TypeRepo;
@@ -73,6 +74,16 @@ public class ProductController {
         product.setType(new Type(product.getType().getName()));
         product.setCountry(new Country(product.getCountry().getName()));
         return product;
+    }
+
+    @PostMapping("/choose/{id}")
+    public String chooseProduct(@PathVariable int id, @RequestBody User user) {
+        try {
+            userRepo.setProduct(id, userRepo.findByLogin(user.getLogin()).getId());
+            return "{ \"status\": \"ok\" }";
+        } catch (Exception err) {
+            return "{ \"status\": \"Продукт уже есть в корзине\" }";
+        }
     }
 
     @GetMapping("/get-all")

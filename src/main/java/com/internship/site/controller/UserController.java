@@ -1,5 +1,8 @@
 package com.internship.site.controller;
 
+import com.internship.site.entity.Country;
+import com.internship.site.entity.Product;
+import com.internship.site.entity.Type;
 import com.internship.site.entity.enums.Role;
 import com.internship.site.entity.user.User;
 import com.internship.site.repository.UserRepo;
@@ -32,6 +35,34 @@ public class UserController {
     private MyUserDetailsService userDetailsService;
     @Autowired
     HttpServletRequest request;
+
+    @PostMapping("/revoke-product")
+    public void revokeProduct(@RequestBody int id) {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
+
+        String login = jwtTokenUtil.extractUsername(jwt);
+        User myUser = userRepo.findByLogin(login);
+
+        userRepo.deleteProduct(id, myUser.getId());
+    }
+
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
+
+        String login = jwtTokenUtil.extractUsername(jwt);
+        User myUser = userRepo.findByLogin(login);
+        List<Product> products = myUser.getProducts();
+
+        for (Product product: products) {
+            product.setUsers(null);
+            product.setType(new Type(product.getType().getName()));
+            product.setCountry(new Country(product.getCountry().getName()));
+        }
+        return products;
+    }
 
     @GetMapping("/get-all")
     public List<User> getUsers() {

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Product } from '../models/product';
 import { Observable } from 'rxjs';
+import {User} from "../models/user";
+import {Serializer} from "@angular/compiler";
 
 @Injectable()
 export class ProductService {
@@ -27,5 +29,9 @@ export class ProductService {
 
   public deleteProduct(id: number) {
     return this.http.post('api/products/delete', id);
+  }
+
+  public addProductToBasket(id: number, user: User) {
+    return this.http.post<any>(`api/products/choose/${id}`, user);
   }
 }

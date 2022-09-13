@@ -4,6 +4,7 @@ import {User} from "../models/user";
 import {Observable} from "rxjs";
 import { map } from 'rxjs/operators';
 import {Data} from "@angular/router";
+import {Product} from "../models/product";
 
 
 @Injectable()
@@ -24,12 +25,20 @@ export class UserService {
     return this.http.get<User>('api/users/user');
   }
 
+  public getProducts():Observable<Product[]> {
+    return this.http.get<Product[]>('api/users/products');
+  }
+
   public logInUser(user: User):Observable<any> {
     return this.http.post('api/users/auth', user);
   }
 
   public deleteUser(user: User) {
     return this.http.post('api/users/delete', user);
+  }
+
+  public revokeProduct(id: number) {
+    return this.http.post(`api/users/revoke-product`, id);
   }
 
   public addUser(user: User) {

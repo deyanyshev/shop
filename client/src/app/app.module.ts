@@ -14,7 +14,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { AuthComponent } from './components/auth/auth.component';
 import { ProductsComponent } from './components/products/products.component';
 import { BasketComponent } from './components/basket/basket.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModule, NgbToast, NgbToastModule} from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/header/header.component';
 import {ApiService} from "./service/api.service";
 import { CreatingProductComponent } from './components/creating-product/creating-product.component';
@@ -38,6 +38,8 @@ import {MdbFormsModule} from "mdb-angular-ui-kit/forms";
 import {MdbCollapseModule} from "mdb-angular-ui-kit/collapse";
 import {MatSelectModule} from "@angular/material/select";
 import {MatCard, MatCardModule} from "@angular/material/card";
+import {ToastService} from "./service/toast.service";
+import {ToastsContainer} from "./components/toasts-container/toasts-container.component";
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import {MatCard, MatCardModule} from "@angular/material/card";
     BasketComponent,
     HeaderComponent,
     CreatingProductComponent,
-    AdminComponent
+    AdminComponent,
+    ToastsContainer
   ],
   imports: [
     BrowserModule,
@@ -67,7 +70,7 @@ import {MatCard, MatCardModule} from "@angular/material/card";
     MatTableModule,
     MatButtonModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
   ],
   providers: [
     ProductService,
@@ -75,6 +78,7 @@ import {MatCard, MatCardModule} from "@angular/material/card";
     ApiService,
     TypeService,
     CountryService,
+    ToastService,
     FileService,
     NotAuthGuard,
     AuthGuard,

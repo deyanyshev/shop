@@ -1,0 +1,33 @@
+.basket {
+  width: 100%;
+  padding: 50px;
+}
+
+.mat-elevation-z8 {
+  width: 100%;
+}
+
+.icon {
+  padding: 25px 25px 25px 0;
+  height: 34vh;
+  max-height: 250px;
+  min-height: 90px;
+}
+
+.name {
+  font-size: 29px;
+  line-height: 1.2;
+}
+
+.cost {
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 2;
+  padding: 20px;
+  width: 220px;
+}
+
+.edit-btn {
+  font-size: 20px;
+  line-height: 2.2;
+}

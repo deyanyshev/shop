@@ -45,8 +45,6 @@ public class Product {
         return id;
     }
 
-    public Set<User> getUsers() { return users; }
-
     public void setUsers(Set<User> users) {
         this.users = users;
     }
