@@ -143,6 +143,19 @@ public class ProductController {
         }
     }
 
+    @PostMapping("/delete")
+    public void deleteProduct(@RequestBody int id) {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
+        String login = jwtTokenUtil.extractUsername(jwt);
+
+        Role role = userRepo.findByLogin(login).getRole();
+
+        if (role == Role.ROLE_ADMINISTRATOR || role == Role.ROLE_SUPER_ADMINISTRATOR) {
+            productRepo.delete(productRepo.findById(id));
+        }
+    }
+
     @GetMapping("/types")
     public List<Type> getTypes() {
         List<Type> types = typeRepo.findAll();

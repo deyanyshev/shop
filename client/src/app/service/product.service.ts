@@ -17,11 +17,15 @@ export class ProductService {
     });
   }
 
-  public getProduct(id:number) {
+  public getProduct(id: number) {
     return this.http.get<Product>(`api/products/product/${id}`);
   }
 
   public save(product: Product) {
     return this.http.post('api/products/add', product);
+  }
+
+  public deleteProduct(id: number) {
+    return this.http.post('api/products/delete', id);
   }
 }
