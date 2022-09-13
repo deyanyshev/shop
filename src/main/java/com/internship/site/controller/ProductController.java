@@ -4,7 +4,6 @@ import com.internship.site.entity.Country;
 import com.internship.site.entity.Product;
 import com.internship.site.entity.Type;
 import com.internship.site.entity.enums.Role;
-import com.internship.site.entity.user.User;
 import com.internship.site.repository.CountryRepo;
 import com.internship.site.repository.ProductRepo;
 import com.internship.site.repository.TypeRepo;
@@ -14,26 +13,20 @@ import com.internship.site.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
+
+import org.springframework.core.io.Resource;
 
 @RestController
 @RequestMapping("api/products")
@@ -64,6 +57,15 @@ public class ProductController {
 
     @Autowired
     private CountryRepo countryRepo;
+
+    @ResponseBody
+    @GetMapping(value = "/get-img", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getImg(@RequestParam(value = "id") int id) throws IOException {
+        Product product = productRepo.findById(id);
+        Path path = Paths.get(resourcePath + product.getImg());
+
+        return Files.readAllBytes(path);
+    }
 
     @GetMapping("/get-all")
     public List<Product> getAllProducts(@RequestParam(value = "name") String name, @RequestParam(value = "type") String typeName, @RequestParam(value = "country") String countryName) {

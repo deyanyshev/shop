@@ -6,8 +6,10 @@ import com.internship.site.entity.Type;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepo extends CrudRepository<Product, Integer> {
+    Product findById(int id);
     List<Product> findAll();
     List<Product> findAllByNameLike(String name);
     List<Product> findAllByNameLikeAndType(String name, Type type);
