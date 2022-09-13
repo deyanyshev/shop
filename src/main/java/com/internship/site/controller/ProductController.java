@@ -67,6 +67,14 @@ public class ProductController {
         return Files.readAllBytes(path);
     }
 
+    @GetMapping("/product/{id}")
+    public Product getProduct(@PathVariable int id) {
+        Product product = productRepo.findById(id);
+        product.setType(new Type(product.getType().getName()));
+        product.setCountry(new Country(product.getCountry().getName()));
+        return product;
+    }
+
     @GetMapping("/get-all")
     public List<Product> getAllProducts(@RequestParam(value = "name") String name, @RequestParam(value = "type") String typeName, @RequestParam(value = "country") String countryName) {
         List<Product> products;

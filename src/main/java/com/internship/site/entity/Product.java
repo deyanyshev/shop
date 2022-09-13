@@ -20,7 +20,9 @@ public class Product {
     @JoinColumn(name = "type_id")
     private Type type;
 
-    private String name, description, img;
+    private String name, img;
+    @Column(length=1000)
+    private String description;
     private int cost;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,6 +46,10 @@ public class Product {
     }
 
     public Set<User> getUsers() { return users; }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

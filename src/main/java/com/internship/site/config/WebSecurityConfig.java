@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/users/auth",
                         "/api/users/check-auth",
                         "/api/users/add",
-                        "/api/products",
+                        "/api/products/product/**",
                         "/api/products/types",
                         "/api/products/countries",
                         "/api/products/get-all",

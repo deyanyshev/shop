@@ -1,0 +1,48 @@
+.card-group {
+  display: block;
+  padding: 25px;
+  width: 100%;
+}
+
+.img-card {
+  display: inline-block;
+  width: 50vw;
+}
+
+.card-img {
+  display: block;
+  object-fit: contain;
+}
+
+.data {
+  display: inline-block;
+  width: 40vw;
+}
+
+.cost {
+  font-size: 27px;
+  font-weight: 500;
+}
+
+mat-card-content {
+  font-size: 17px;
+}
+
+.second-data {
+  margin-top: 50px;
+}
+
+.second-data-block {
+  margin-top: -10px;
+}
+
+mat-card-subtitle {
+  display: inline-block;
+  font-size: 16px;
+}
+
+mat-label {
+  margin-left: 30px;
+  font-size: 15px;
+  color: #595858;
+}
