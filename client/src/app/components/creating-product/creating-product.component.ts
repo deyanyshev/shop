@@ -79,11 +79,11 @@ export class CreatingProductComponent implements OnInit {
     this.newProduct.img = "";
 
     const file: File = imgInput.files[0];
-    const filename = 'static/img/' + this.apiService.generateRandomString() + '.' + file.name.split('.').slice(-1)[0];
+    const filename = this.apiService.generateRandomString() + '.' + file.name.split('.').slice(-1)[0];
 
     this.fileService.uploadFile(file, filename).
     subscribe(data => {
-        this.newProduct.img = filename;
+        this.newProduct.img = 'static/img/' + filename;
         this.productService.save(this.newProduct).subscribe(
           data => {
             alert("Продукт добавлен успешно");

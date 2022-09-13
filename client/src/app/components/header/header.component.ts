@@ -3,6 +3,7 @@ import {UserService} from "../../service/user.service";
 import {map} from "rxjs/operators";
 import {User} from "../../models/user";
 import {Role} from "../../models/enums/role"
+import {ApiService} from "../../service/api.service";
 
 @Component({
   selector: 'app-header',
@@ -14,8 +15,9 @@ export class HeaderComponent implements OnInit {
   isLoggedIn = false; /** Флаг авторизации пользователя, нужен для рендера верных шаблонов **/
   user: User;
   roles = Role;
+  nameProduct: string = '';
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private apiService: ApiService) { }
 
   async ngOnInit() {
     /** Определение флага авторизации пользователя **/
@@ -31,4 +33,7 @@ export class HeaderComponent implements OnInit {
     ).subscribe();
   }
 
+  findProductByName() {
+    location.href = `/?name=${this.nameProduct}`;
+  }
 }

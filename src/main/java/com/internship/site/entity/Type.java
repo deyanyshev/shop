@@ -19,7 +19,15 @@ public class Type {
 
     private String name;
 
-    public List<Product> getProducts() {
+    public Type() {
+
+    }
+
+    public Type(String name) {
+        this.name = name;
+    }
+
+    private List<Product> getProducts() {
         return products;
     }
 

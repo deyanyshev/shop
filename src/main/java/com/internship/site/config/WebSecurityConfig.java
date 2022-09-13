@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/products/types",
                         "/api/products/countries",
                         "/api/products/get-all",
+                        "/api/products/get-img",
                         "/static/**"
                 ).permitAll().
                 anyRequest().authenticated().and().

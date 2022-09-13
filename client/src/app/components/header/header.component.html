@@ -30,8 +30,8 @@
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Найти" aria-label="Search">
-      <button class="btn btn-success my-2" type="submit">Найти</button>
+      <input [(ngModel)]="nameProduct" name="name" class="form-control mr-sm-2" type="text" placeholder="Найти" aria-label="Искать">
+      <button class="btn btn-success my-2" type="submit" (click)="findProductByName()">Найти</button>
     </form>
   </div>
 </nav>

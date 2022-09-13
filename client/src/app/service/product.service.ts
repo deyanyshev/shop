@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Product } from '../models/product';
 import { Observable } from 'rxjs';
 
@@ -9,8 +9,12 @@ export class ProductService {
   constructor(private http: HttpClient) {
   }
 
-  public findAll(): Observable<Product[]> {
-    return this.http.get<Product[]>('api/products');
+  public findAll(name: string, type: string, country: string): Observable<Product[]> {
+    const params = new HttpParams().append('name', name)
+      .append('type', type).append('country', country);
+    return this.http.get<Product[]>(`api/products/get-all`, {
+      params
+    });
   }
 
   public save(product: Product) {

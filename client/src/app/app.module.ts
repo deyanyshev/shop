@@ -33,6 +33,11 @@ import { AdminComponent } from './components/admin/admin.component';
 import {SuperAdminGuard} from "./guards/super-admin.guard";
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
+import {MdbCheckboxModule} from "mdb-angular-ui-kit/checkbox";
+import {MdbFormsModule} from "mdb-angular-ui-kit/forms";
+import {MdbCollapseModule} from "mdb-angular-ui-kit/collapse";
+import {MatSelectModule} from "@angular/material/select";
+import {MatCard, MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -60,7 +65,9 @@ import {MatButtonModule} from "@angular/material/button";
     MatInputModule,
     FileSaverModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    MatCardModule
   ],
   providers: [
     ProductService,

@@ -12,6 +12,11 @@ import com.internship.site.repository.UserRepo;
 import com.internship.site.service.MyUserDetailsService;
 import com.internship.site.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,17 +24,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/products")
 public class ProductController {
+    @Value("${resourcePath}")
+    private String resourcePath;
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -55,8 +66,33 @@ public class ProductController {
     private CountryRepo countryRepo;
 
     @GetMapping("/get-all")
-    public void getAllProducts() {
+    public List<Product> getAllProducts(@RequestParam(value = "name") String name, @RequestParam(value = "type") String typeName, @RequestParam(value = "country") String countryName) {
+        List<Product> products;
 
+        Type type = typeRepo.findByName(typeName);
+        Country country = countryRepo.findByName(countryName);
+        name = "%" + name + "%";
+        System.out.println(typeName);
+
+        if (type != null) {
+            if (country != null) {
+                products = productRepo.findAllByNameLikeAndTypeAndCountry(name, type, country);
+            } else {
+                products = productRepo.findAllByNameLikeAndType(name, type);
+            }
+        } else {
+            if (country != null) {
+                products = productRepo.findAllByNameLikeAndCountry(name, country);
+            } else {
+               products = productRepo.findAllByNameLike(name);
+            }
+        }
+
+        for (Product product : products) {
+            product.setCountry(new Country(product.getCountry().getName()));
+            product.setType(new Type(product.getType().getName()));
+        }
+        return products;
     }
 
     @PostMapping("/add-img")
@@ -67,7 +103,7 @@ public class ProductController {
         Role role = userRepo.findByLogin(login).getRole();
 
         if (role == Role.ROLE_ADMINISTRATOR || role == Role.ROLE_SUPER_ADMINISTRATOR) {
-            Files.write(Paths.get("src/main/resources/" + image.getOriginalFilename()), image.getBytes());
+            Files.write(Paths.get(resourcePath + image.getOriginalFilename()), image.getBytes());
         }
     }
 

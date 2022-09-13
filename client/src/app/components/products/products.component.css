@@ -1,0 +1,29 @@
+mat-form-field {
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+.products {
+  margin: 25px;
+  width: calc(100% - 50px);
+}
+
+.card {
+  margin-bottom: 25px;
+}
+
+.card-img-top {
+  height: 17em;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 400;
+  margin-top: -10px;
+}
+
+.card-footer {
+  background-color: white;
+  border: none;
+}

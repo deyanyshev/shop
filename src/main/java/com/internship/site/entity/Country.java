@@ -19,7 +19,14 @@ public class Country {
 
     private String name;
 
-    public List<Product> getProducts() {
+    public Country() {
+    }
+
+    public Country(String name) {
+        this.name = name;
+    }
+
+    private List<Product> getProducts() {
         return products;
     }
 

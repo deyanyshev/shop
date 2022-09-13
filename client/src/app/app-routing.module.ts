@@ -11,9 +11,11 @@ import {AuthGuard} from "./guards/auth.guard";
 import {AdminGuard} from "./guards/admin.guard";
 import {AdminComponent} from "./components/admin/admin.component";
 import {SuperAdminGuard} from "./guards/super-admin.guard";
+import {ProductComponent} from "./components/product/product.component";
 
 const routes: Routes = [
   { path: '', component: ProductsComponent },
+  { path: 'product/:id', component: ProductComponent },
   { path: 'auth', component: AuthComponent, canActivate: [NotAuthGuard] },
   { path: 'profile', component: UserComponent, canActivate: [AuthGuard] },
   { path: 'basket', component: BasketComponent, canActivate: [AuthGuard] },

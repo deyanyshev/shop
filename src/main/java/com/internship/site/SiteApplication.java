@@ -1,21 +1,17 @@
 package com.internship.site;
 
 import com.internship.site.config.MyConfiguration;
-import liquibase.integration.spring.SpringLiquibase;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.CacheControl;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.sql.DataSource;
-import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 
 @SpringBootApplication
 public class SiteApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(SiteApplication.class, args);
 	}

@@ -1,5 +1,37 @@
-<app-header></app-header>
+<div>
+  <mat-form-field>
+    <mat-label>Категория</mat-label>
+    <mat-select (selectionChange)="onChangeType($event.value)">
+      <mat-option *ngFor="let type of types" [value]="type.name">
+        {{type.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
-<p>
-  products works!
-</p>
+  <mat-form-field>
+    <mat-label>Страна</mat-label>
+    <mat-select (selectionChange)="onChangeCountry($event.value)">
+      <mat-option *ngFor="let country of countries" [value]="country.name">
+        {{country.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div class="products">
+  <div class="row">
+    <div class="col-md-3 card-deck" *ngFor="let product of products">
+      <div class="card">
+        <img class="card-img-top" src="http://localhost:8080/{{product.img}}" alt="Card image cap">
+        <div class="card-body">
+          <h2>{{product.cost}} ₽</h2>
+          <div class="card-title">{{product.name}}</div>
+        </div>
+        <div class="card-footer">
+          <a href="#" class="btn btn-primary" style="float: right" (click)="getProduct(product.id)">Подробнее</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

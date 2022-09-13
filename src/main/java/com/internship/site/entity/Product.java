@@ -39,6 +39,10 @@ public class Product {
         this.country = country;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public Set<User> getUsers() { return users; }
 
     public String getName() { return name; }
