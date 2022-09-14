@@ -1,6 +1,7 @@
 package com.internship.site;
 
 import com.internship.site.config.MyConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.CacheControl;
