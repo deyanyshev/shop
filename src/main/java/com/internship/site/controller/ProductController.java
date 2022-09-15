@@ -3,6 +3,7 @@ package com.internship.site.controller;
 import com.internship.site.dto.CountryDto;
 import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.TypeDto;
+import com.internship.site.dto.UserDto;
 import com.internship.site.entity.Country;
 import com.internship.site.entity.Product;
 import com.internship.site.entity.Type;
@@ -40,53 +41,15 @@ import org.springframework.core.io.Resource;
 public class ProductController {
     @Autowired
     ProductService productService;
-
     @Autowired
     private TypeService typeService;
-
     @Autowired
     private CountryService countryService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtUtil jwtTokenUtil;
-
-    @Autowired
-    private MyUserDetailsService userDetailsService;
-
-    @Autowired
-    HttpServletRequest request;
-
-    @Autowired
-    private ProductRepo productRepo;
-
-    @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
-    private TypeRepo typeRepo;
-
-    @Autowired
-    private CountryRepo countryRepo;
-
 
     @GetMapping("/product/{id}")
     public ProductDto getProduct(@PathVariable int id) {
         return productService.getProduct(id);
     }
-
-    /*
-    @PostMapping("/choose/{id}")
-    public String chooseProduct(@PathVariable int id, @RequestBody User user) {
-        try {
-            userRepo.setProduct(id, userRepo.findByLogin(user.getLogin()).getId());
-            return "{ \"status\": \"ok\" }";
-        } catch (Exception err) {
-            return "{ \"status\": \"Продукт уже есть в корзине\" }";
-        }
-    }*/
 
     @GetMapping("/get-all")
     public List<ProductDto> getAllProducts(@RequestParam(value = "name") String name, @RequestParam(value = "type") String typeName, @RequestParam(value = "country") String countryName) {
@@ -122,5 +85,10 @@ public class ProductController {
     @GetMapping("/countries")
     public List<CountryDto> getCountries() {
         return countryService.getCountries();
+    }
+
+    @PostMapping("/choose/{id}")
+    public String chooseProduct(@PathVariable int id, @RequestBody UserDto userDto) {
+        return productService.chooseProduct(id, userDto);
     }
 }

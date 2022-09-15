@@ -1,15 +1,14 @@
 package com.internship.site.service;
 
 import com.internship.site.dto.ProductDto;
+import com.internship.site.dto.UserDto;
 import com.internship.site.entity.Country;
 import com.internship.site.entity.Product;
+import com.internship.site.entity.Purchase;
 import com.internship.site.entity.Type;
 import com.internship.site.entity.enums.Role;
 import com.internship.site.jwt.JwtUtil;
-import com.internship.site.repository.CountryRepo;
-import com.internship.site.repository.ProductRepo;
-import com.internship.site.repository.TypeRepo;
-import com.internship.site.repository.UserRepo;
+import com.internship.site.repository.*;
 import com.internship.site.utils.MappingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,6 +40,8 @@ public class ProductServiceImpl implements ProductService {
     private TypeRepo typeRepo;
     @Autowired
     private CountryRepo countryRepo;
+    @Autowired
+    private PurchaseRepo purchaseRepo;
     @Autowired
     HttpServletRequest request;
 
@@ -137,6 +138,17 @@ public class ProductServiceImpl implements ProductService {
 
         if (role == Role.ROLE_ADMINISTRATOR || role == Role.ROLE_SUPER_ADMINISTRATOR) {
             Files.write(Paths.get(resourcePath + image.getOriginalFilename()), image.getBytes());
+        }
+    }
+
+    @Override
+    public String chooseProduct(int id, UserDto userDto) {
+        try {
+            Purchase purchase = new Purchase(userRepo.findByLogin(userDto.getLogin()), productRepo.findById(id));
+            purchaseRepo.save(purchase);
+            return "{ \"status\": \"ok\" }";
+        } catch (Exception err) {
+            return "{ \"status\": \"Продукт уже есть в корзине\" }";
         }
     }
 }

@@ -1,14 +1,12 @@
 package com.internship.site.controller;
 
+import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.UserDto;
-import com.internship.site.entity.user.User;
 import com.internship.site.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("api/users")
@@ -16,34 +14,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-/*
     @PostMapping("/revoke-product")
     public void revokeProduct(@RequestBody int id) {
-        final String authorizationHeader = request.getHeader("Authorization");
-        String jwt = authorizationHeader.substring(7);
-
-        String login = jwtTokenUtil.extractUsername(jwt);
-        User myUser = userRepo.findByLogin(login);
-
-        userRepo.deleteProduct(id, myUser.getId());
+        userService.revokeProduct(id);
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
-        final String authorizationHeader = request.getHeader("Authorization");
-        String jwt = authorizationHeader.substring(7);
-
-        String login = jwtTokenUtil.extractUsername(jwt);
-        User myUser = userRepo.findByLogin(login);
-        List<Product> products = myUser.getProducts();
-
-        for (Product product: products) {
-            product.setUsers(null);
-            product.setType(new Type(product.getType().getName()));
-            product.setCountry(new Country(product.getCountry().getName()));
-        }
-        return products;
-    }*/
+    public List<ProductDto> getProducts() {
+        return userService.getProducts();
+    }
 
     @GetMapping("/get-all")
     public List<UserDto> getUsers() {

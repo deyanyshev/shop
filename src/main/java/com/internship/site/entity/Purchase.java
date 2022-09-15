@@ -19,6 +19,14 @@ public class Purchase {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public Purchase() {
+    }
+
+    public Purchase(User user, Product product) {
+        this.user = user;
+        this.product = product;
+    }
+
     public int getId() {
         return id;
     }

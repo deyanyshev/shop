@@ -3,6 +3,7 @@ package com.internship.site.service;
 import com.internship.site.dto.CountryDto;
 import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.TypeDto;
+import com.internship.site.dto.UserDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -20,4 +21,6 @@ public interface ProductService {
     public byte[] getImg(int id) throws IOException;
 
     public void addImg(MultipartFile image) throws IOException;
+
+    public String chooseProduct(int id, UserDto userDto);
 }

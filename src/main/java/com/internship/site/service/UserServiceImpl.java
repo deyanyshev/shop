@@ -2,12 +2,16 @@ package com.internship.site.service;
 
 import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.UserDto;
+import com.internship.site.entity.Purchase;
 import com.internship.site.entity.enums.Role;
 import com.internship.site.entity.user.User;
 import com.internship.site.jwt.JwtUtil;
+import com.internship.site.repository.ProductRepo;
+import com.internship.site.repository.PurchaseRepo;
 import com.internship.site.repository.UserRepo;
 import com.internship.site.utils.MappingUtils;
 import com.internship.site.utils.MappingUtilsImpl;
+import liquibase.pro.packaged.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,14 +30,16 @@ public class UserServiceImpl implements UserService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtUtil jwtTokenUtil;
-
     @Autowired
     private MyUserDetailsService userDetailsService;
     @Autowired
     HttpServletRequest request;
     @Autowired
     private UserRepo userRepo;
-
+    @Autowired
+    private ProductRepo productRepo;
+    @Autowired
+    private PurchaseRepo purchaseRepo;
     @Autowired
     private MappingUtils mappingUtils;
 
@@ -142,17 +148,35 @@ public class UserServiceImpl implements UserService {
         User myUser = userRepo.findByLogin(login);
 
         if (Objects.equals(login, userDto.getLogin()) || myUser.getRole() == Role.ROLE_SUPER_ADMINISTRATOR) {
-            userRepo.delete(mappingUtils.mapToUserEntity(userDto));
+            userRepo.delete(userRepo.findByLogin(userDto.getLogin()));
         }
     }
 
     @Override
     public List<ProductDto> getProducts() {
-        return null;
+        final String authorizationHeader = request.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
+
+        String login = jwtTokenUtil.extractUsername(jwt);
+        User myUser = userRepo.findByLogin(login);
+        List<Purchase> purchases = purchaseRepo.findPurchasesByUser(myUser);
+
+        List<ProductDto> productsDto = new ArrayList<>();
+
+        for (Purchase purchase: purchases) {
+            productsDto.add(mappingUtils.mapToProductDto(productRepo.findById(purchase.getProduct().getId())));
+        }
+        return productsDto;
     }
 
     @Override
     public void revokeProduct(int id) {
+        final String authorizationHeader = request.getHeader("Authorization");
+        String jwt = authorizationHeader.substring(7);
 
+        String login = jwtTokenUtil.extractUsername(jwt);
+        User myUser = userRepo.findByLogin(login);
+
+        purchaseRepo.deleteByUserAndProduct(myUser, productRepo.findById(id));
     }
 }
