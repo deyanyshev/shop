@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="deyanyshev (generated)">
+        <createTable tableName="products">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_product"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints unique="true" />
+            </column>
+            <column name="description" type="VARCHAR(1023)"/>
+            <column name="img" type="VARCHAR(255)"/>
+            <column name="cost" type="INT"/>
+            <column name="type_id" type="INT">
+                <constraints foreignKeyName="fk_products_on_type" referencedColumnNames="id" referencedTableName="types"/>
+            </column>
+            <column name="country_id" type="INT">
+                <constraints foreignKeyName="fk_products_on_country" referencedColumnNames="id" referencedTableName="countries"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

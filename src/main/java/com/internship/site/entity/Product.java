@@ -1,10 +1,7 @@
 package com.internship.site.entity;
 
-import com.internship.site.entity.user.User;
-
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table (name = "products")
@@ -12,9 +9,6 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @ManyToMany(mappedBy = "products")
-    private Set<User> users = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "type_id")
@@ -28,6 +22,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Purchase> products;
 
     public Product() {
     }
@@ -43,10 +40,6 @@ public class Product {
 
     public int getId() {
         return id;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
     }
 
     public String getName() { return name; }
@@ -66,4 +59,8 @@ public class Product {
 
     public Country getCountry() { return country; }
     public void setCountry(Country country) { this.country = country; }
+
+    public List<Purchase> getProducts() {
+        return products;
+    }
 }

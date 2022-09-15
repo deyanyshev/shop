@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="1" author="deyanyshev (generated)">
+        <createTable tableName="purchases">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_purchase"/>
+            </column>
+            <column name="user_id" type="INT">
+                <constraints foreignKeyName="fk_products_on_type" referencedColumnNames="id" referencedTableName="users"/>
+            </column>
+            <column name="product_id" type="INT">
+                <constraints foreignKeyName="fk_products_on_country" referencedColumnNames="id" referencedTableName="products"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

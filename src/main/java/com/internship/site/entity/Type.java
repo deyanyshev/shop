@@ -31,6 +31,10 @@ public class Type {
         this.products = products;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

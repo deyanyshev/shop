@@ -1,12 +1,10 @@
 package com.internship.site.entity.user;
 
-import com.internship.site.entity.Product;
+import com.internship.site.entity.Purchase;
 import com.internship.site.entity.enums.Role;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -20,18 +18,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "purchases",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private List<Product> products = null;
-
     private String name, login, password, email;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Purchase> purchases;
 
     public User() {
     }
@@ -42,24 +35,6 @@ public class User {
         this.password = password;
         this.email = email;
         this.role = role;
-    }
-
-    public List<Product> getProducts() { return products; }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public void setProduct(Product product) {
-        this.products.add(product);
-    }
-
-    public void addProduct(Product product) {
-        products.add(product);
-    }
-
-    public void removeProduct(Product product) {
-        products.remove(product);
     }
 
     public int getId() { return id; }
@@ -83,5 +58,9 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Purchase> getPurchases() {
+        return purchases;
     }
 }
