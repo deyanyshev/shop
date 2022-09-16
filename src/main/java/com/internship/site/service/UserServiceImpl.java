@@ -147,6 +147,7 @@ public class UserServiceImpl implements UserService {
         String login = jwtTokenUtil.extractUsername(jwt);
         User myUser = userRepo.findByLogin(login);
 
+        /** Проверка удаляющего пользователя */
         if (Objects.equals(login, userDto.getLogin()) || myUser.getRole() == Role.ROLE_SUPER_ADMINISTRATOR) {
             userRepo.delete(userRepo.findByLogin(userDto.getLogin()));
         }
