@@ -4,17 +4,27 @@ import com.internship.site.entity.user.User;
 
 import javax.persistence.*;
 
+/**
+ * Модель покупок (корзина)
+ * Связующая таблица между пользователями и продуктами (многие ко многим)
+ *
+ * @author deyanyshev
+ */
+
 @Entity
 @Table(name = "purchases")
 public class Purchase {
+    /** Идентификатор покупки */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /** Пользователь, добавивший продукт в корзину */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    /** Продукт, добавленный в корзину */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;

@@ -3,6 +3,12 @@ package com.internship.site.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Модель категории продукта
+ *
+ * @author deyanyshev
+ */
+
 @Entity
 @Table (name = "types", uniqueConstraints =
         {
@@ -10,13 +16,16 @@ import java.util.List;
         }
 )
 public class Type {
+    /** Идентификатор категории */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /** Список продуктов, которые соответствуют данной категории */
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
 
+    /** Наименование категории */
     private String name;
 
     public Type() {

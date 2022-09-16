@@ -7,6 +7,12 @@ import javax.persistence.*;
 import java.util.List;
 
 
+/**
+ * Модель пользователя
+ *
+ * @author deyanyshev
+ */
+
 @Entity
 @Table (name = "users", uniqueConstraints =
         {
@@ -14,11 +20,22 @@ import java.util.List;
         }
 )
 public class User {
+    /** Идентификатор пользователя */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name, login, password, email;
+    /** Имя пользователя */
+    private String name;
+
+    /** Логин пользователя (уникальный) */
+    private String login;
+
+    /** Пароль пользователя */
+    private String password;
+
+    /** Почта пользователя */
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private Role role;

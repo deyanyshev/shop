@@ -3,6 +3,12 @@ package com.internship.site.entity;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Модель страны-производителя
+ *
+ * @author deyanyshev
+ */
+
 @Entity
 @Table (name = "countries", uniqueConstraints =
         {
@@ -10,13 +16,16 @@ import java.util.List;
         }
 )
 public class Country {
+    /** Идентификатор страны */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /** Список продуктов, произведённых в данной стране */
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products;
 
+    /** Наименование страны */
     private String name;
 
     public Country() {
