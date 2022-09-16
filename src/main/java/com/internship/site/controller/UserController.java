@@ -2,7 +2,7 @@ package com.internship.site.controller;
 
 import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.UserDto;
-import com.internship.site.service.UserService;
+import com.internship.site.service.user.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

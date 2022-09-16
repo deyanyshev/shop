@@ -1,4 +1,4 @@
-package com.internship.site.service;
+package com.internship.site.service.product;
 
 import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.UserDto;
@@ -25,11 +25,10 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Value("${resourcePath}")
     private String resourcePath;
 
-    @Autowired
-    private MappingUtils mappingUtils;
     @Autowired
     private JwtUtil jwtTokenUtil;
     @Autowired
@@ -48,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProduct(int id) {
         Product product = productRepo.findById(id);
-        return mappingUtils.mapToProductDto(product);
+        return MappingUtils.mapToProductDto(product);
     }
 
     @Override
@@ -76,7 +75,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductDto> productsDto = new ArrayList<>();
 
         for (Product product : products) {
-            productsDto.add(mappingUtils.mapToProductDto(product));
+            productsDto.add(MappingUtils.mapToProductDto(product));
         }
         return productsDto;
     }
@@ -94,14 +93,14 @@ public class ProductServiceImpl implements ProductService {
             Country country = countryRepo.findByName(productDto.getCountry().getName());
 
             if (type == null) {
-                type = typeRepo.save(mappingUtils.mapToTypeEntity(productDto.getType()));
+                type = typeRepo.save(MappingUtils.mapToTypeEntity(productDto.getType()));
             }
 
             if (country == null) {
-                country = countryRepo.save(mappingUtils.mapToCountryEntity(productDto.getCountry()));
+                country = countryRepo.save(MappingUtils.mapToCountryEntity(productDto.getCountry()));
             }
 
-            Product product = mappingUtils.mapToProductEntity(productDto);
+            Product product = MappingUtils.mapToProductEntity(productDto);
             product.setType(type);
             product.setCountry(country);
             productRepo.save(product);

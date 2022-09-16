@@ -1,4 +1,4 @@
-package com.internship.site.service;
+package com.internship.site.service.type;
 
 import com.internship.site.dto.TypeDto;
 

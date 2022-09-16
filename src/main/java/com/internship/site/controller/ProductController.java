@@ -4,38 +4,17 @@ import com.internship.site.dto.CountryDto;
 import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.TypeDto;
 import com.internship.site.dto.UserDto;
-import com.internship.site.entity.Country;
-import com.internship.site.entity.Product;
-import com.internship.site.entity.Type;
-import com.internship.site.entity.enums.Role;
-import com.internship.site.entity.user.User;
-import com.internship.site.repository.CountryRepo;
-import com.internship.site.repository.ProductRepo;
-import com.internship.site.repository.TypeRepo;
-import com.internship.site.repository.UserRepo;
-import com.internship.site.service.CountryService;
-import com.internship.site.service.MyUserDetailsService;
-import com.internship.site.jwt.JwtUtil;
-import com.internship.site.service.ProductService;
-import com.internship.site.service.TypeService;
+import com.internship.site.service.country.CountryService;
+import com.internship.site.service.product.ProductService;
+import com.internship.site.service.type.TypeService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-
-import org.springframework.core.io.Resource;
 
 @RestController
 @RequestMapping("api/products")

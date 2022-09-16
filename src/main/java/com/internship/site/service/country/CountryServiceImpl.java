@@ -1,4 +1,4 @@
-package com.internship.site.service;
+package com.internship.site.service.country;
 
 import com.internship.site.dto.CountryDto;
 import com.internship.site.entity.Country;
@@ -12,8 +12,6 @@ import java.util.List;
 
 @Service
 public class CountryServiceImpl implements CountryService {
-    @Autowired
-    private MappingUtils mappingUtils;
 
     @Autowired
     private CountryRepo countryRepo;
@@ -24,7 +22,7 @@ public class CountryServiceImpl implements CountryService {
         List<CountryDto> countriesDto = new ArrayList<>();
 
         for (Country country: countries) {
-            countriesDto.add(mappingUtils.mapToCountryDto(country));
+            countriesDto.add(MappingUtils.mapToCountryDto(country));
         }
 
         return countriesDto;

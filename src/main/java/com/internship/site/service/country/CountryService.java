@@ -1,4 +1,4 @@
-package com.internship.site.service;
+package com.internship.site.service.country;
 
 import com.internship.site.dto.CountryDto;
 

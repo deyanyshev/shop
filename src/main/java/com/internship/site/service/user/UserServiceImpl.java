@@ -1,4 +1,4 @@
-package com.internship.site.service;
+package com.internship.site.service.user;
 
 import com.internship.site.dto.ProductDto;
 import com.internship.site.dto.UserDto;
@@ -9,15 +9,13 @@ import com.internship.site.jwt.JwtUtil;
 import com.internship.site.repository.ProductRepo;
 import com.internship.site.repository.PurchaseRepo;
 import com.internship.site.repository.UserRepo;
+import com.internship.site.service.MyUserDetailsService;
 import com.internship.site.utils.MappingUtils;
-import com.internship.site.utils.MappingUtilsImpl;
-import liquibase.pro.packaged.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -26,6 +24,7 @@ import java.util.Objects;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -40,8 +39,6 @@ public class UserServiceImpl implements UserService {
     private ProductRepo productRepo;
     @Autowired
     private PurchaseRepo purchaseRepo;
-    @Autowired
-    private MappingUtils mappingUtils;
 
     @Override
     public List<UserDto> getUsers() {
@@ -56,7 +53,7 @@ public class UserServiceImpl implements UserService {
             List<UserDto> usersDto = new ArrayList<>();
 
             for (User user: users) {
-                usersDto.add(mappingUtils.mapToUserDto(user));
+                usersDto.add(MappingUtils.mapToUserDto(user));
             }
             return usersDto;
         }
@@ -70,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
         String login = jwtTokenUtil.extractUsername(jwt);
         User user = userRepo.findByLogin(login);
-        return mappingUtils.mapToUserDto(user);
+        return MappingUtils.mapToUserDto(user);
     }
 
     public String logInUser(UserDto userDto) {
@@ -130,7 +127,7 @@ public class UserServiceImpl implements UserService {
             userDto.setRole(Role.ROLE_CLIENT);
         }
 
-        userRepo.save(mappingUtils.mapToUserEntity(userDto));
+        userRepo.save(MappingUtils.mapToUserEntity(userDto));
 
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(userDto.getLogin());
@@ -165,7 +162,7 @@ public class UserServiceImpl implements UserService {
         List<ProductDto> productsDto = new ArrayList<>();
 
         for (Purchase purchase: purchases) {
-            productsDto.add(mappingUtils.mapToProductDto(productRepo.findById(purchase.getProduct().getId())));
+            productsDto.add(MappingUtils.mapToProductDto(productRepo.findById(purchase.getProduct().getId())));
         }
         return productsDto;
     }
