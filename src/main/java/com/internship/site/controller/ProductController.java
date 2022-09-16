@@ -77,7 +77,7 @@ public class ProductController {
 
     @ApiOperation("Добавить продукт (с идентификатором) в корзину пользователя")
     @PostMapping("/choose/{id}")
-    public String chooseProduct(@PathVariable int product_id, @RequestBody UserDto userDto) {
-        return productService.chooseProduct(product_id, userDto);
+    public String chooseProduct(@PathVariable int id, @RequestBody UserDto userDto) {
+        return productService.chooseProduct(id, userDto);
     }
 }
