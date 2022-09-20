@@ -83,8 +83,4 @@ export class ProductsComponent implements OnInit {
       })
     ).subscribe();
   }
-
-  getProduct(id:number) {
-    location.href = `/product/${id}`;
-  }
 }
